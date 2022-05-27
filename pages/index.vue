@@ -1,5 +1,7 @@
 <template>
-  <Tutorial />
+  <b-container>
+    <LoginComp />
+  </b-container>
 </template>
 
 <script>
