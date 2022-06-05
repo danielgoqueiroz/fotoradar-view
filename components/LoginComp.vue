@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Axios from 'axios'
+import api from '../service/api'
 
 export default {
   name: 'LoginComp',
@@ -21,30 +21,11 @@ export default {
     }
   },
   methods: {
-    login() {
-      const axios = Axios.create({
-        withCredentials: false,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          crossorigin: 'true',
-        },
-      })
-      axios
-        .post(
-          'http://localhost:8080/api/login',
-          new URLSearchParams({
-            username: this.username, // 'daniel'
-            password: this.password, // 'senha123'
-          })
-        )
-        .then((res, err) => {
-          if (err) {
-            console.err(err)
-          }
-          this.token = res.data.access_token
-          localStorage.setItem('token', res.data.access_token)
-          this.$router.push('welcome')
-        })
+    async login() {
+      const res = await api.login(this.username, this.password)
+      if (res) {
+        this.$router.push('image')
+      }
     },
   },
 }

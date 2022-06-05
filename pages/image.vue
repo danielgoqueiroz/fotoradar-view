@@ -1,10 +1,10 @@
 <template>
   <b-container>
-    <h1>Helcome</h1>
-    Texto aqui
+    <h1>Imagens</h1>
+    <ImagesComp />
   </b-container>
 </template>
 
 <script>
-export default { name: 'WelcomePage' }
+export default {}
 </script>
