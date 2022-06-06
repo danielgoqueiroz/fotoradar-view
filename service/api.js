@@ -1,6 +1,5 @@
 import Axios from 'axios'
 
-const vm = this
 const axios = Axios.create({
   baseURL: 'http://localhost:8080/api/',
   withCredentials: false,
@@ -26,7 +25,31 @@ class Api {
         return res
       })
       .catch(() => {
-        vm.$router.push('/login')
+        console.log('Login inválido')
+      })
+  }
+
+  async saveImage(name, link) {
+    const image = {
+      name,
+      link,
+    }
+    const token = localStorage.getItem('token')
+    return await axios
+      .post('image', JSON.stringify(image), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        console.log(res.data)
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
       })
   }
 
@@ -40,7 +63,7 @@ class Api {
         return res.data
       })
       .catch(() => {
-        vm.$router.push('/login')
+        console.log('Login inválido')
       })
   }
 
@@ -54,7 +77,7 @@ class Api {
         return res.data
       })
       .catch(() => {
-        vm.$router.push('/login')
+        console.log('Login inválido')
       })
   }
 }
