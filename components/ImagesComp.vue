@@ -10,9 +10,16 @@
       </b-input-group-append>
     </b-input-group>
 
-    <div v-for="image in images" :key="image.index">
-      <b-img :src="image.link" thumbnail />
-    </div>
+    <b-container
+      v-for="image in images"
+      :key="image.index"
+      class="img-container"
+    >
+      <b-button class="btn">
+        <b-icon-trash variant="white"> </b-icon-trash
+      ></b-button>
+      <b-img :src="image.link" class="image-item" />
+    </b-container>
   </b-container>
 </template>
 
@@ -53,3 +60,21 @@ export default {
   },
 }
 </script>
+<style scoped>
+.img-container {
+  padding: 0.3rem;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  margin-block: 10px;
+}
+
+.img-container .btn {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+.image-item {
+  border-radius: 0.25rem;
+  max-width: 100%;
+}
+</style>

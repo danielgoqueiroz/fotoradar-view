@@ -22,10 +22,9 @@ class Api {
       .then((res, err) => {
         this.token = res.data.access_token
         localStorage.setItem('token', res.data.access_token)
-        return res
       })
-      .catch(() => {
-        console.log('Login inválido')
+      .catch((erro) => {
+        throw erro
       })
   }
 

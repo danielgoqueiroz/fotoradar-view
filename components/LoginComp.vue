@@ -22,10 +22,23 @@ export default {
   },
   methods: {
     async login() {
-      const res = await api.login(this.username, this.password)
-      if (res) {
-        this.$router.push('image')
-      }
+      await api
+        .login(this.username, this.password)
+        .then(() => {
+          this.$router.push('image')
+        })
+        .catch((err) => {
+          this.makeToast(false, err.message)
+        })
+    },
+    makeToast(append, message) {
+      this.$bvToast.toast(message, {
+        title: 'Mensagem',
+        toaster: 'b-toaster-bottom-center',
+        autoHideDelay: 3000,
+        variant: 'danger',
+        appendToast: append,
+      })
     },
   },
 }
