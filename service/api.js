@@ -93,6 +93,26 @@ class Api {
         console.log('Login inválido')
       })
   }
+
+  async setImageToNotice(idNotice, idImage) {
+    console.log(idNotice)
+    console.log(idImage)
+    const token = localStorage.getItem('token')
+    return await axios
+      .post('/notice/add-image-on-notice', null, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: {
+          idNotice,
+          idImage,
+        },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        throw err
+      })
+  }
 }
 
 export default new Api()

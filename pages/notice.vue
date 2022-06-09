@@ -4,10 +4,19 @@
     <b-list-group>
       <b-list-group-item v-for="notice in notices" :key="notice.index">
         <b-row>
-          <b-col> {{ notice.link }}</b-col>
-          <b-col v-show="notice.image != null">{{ notice.image }}</b-col>
-          <b-button @click="selectImage(notice)">Sel. imagem</b-button>
-          <!-- <b-button @click="addImageToNotice(notice)">Salvar</b-button> -->
+          <b-col cols="11"> {{ notice.link }}</b-col>
+          <b-col v-show="notice.image != null" cols="1">
+            <b-img
+              :src="notice.image ? notice.image.link : ''"
+              style="max-width: 50px"
+            />
+          </b-col>
+          <b-col cols="1">
+            <b-button
+              v-show="notice.image == null"
+              @click="selectImage(notice.id)"
+              ><b-icon-image /></b-button
+          ></b-col>
         </b-row>
       </b-list-group-item>
     </b-list-group>
@@ -31,7 +40,7 @@ export default {
     return {
       notices: [],
       images: [{ id: 0, link: '' }],
-      imageSelected: {},
+      idNoticeSelected: {},
       modalShow: false,
     }
   },
@@ -40,15 +49,20 @@ export default {
     this.images = await api.loadImages()
   },
   methods: {
-    addImageToNotice(notice) {
-      console.log(notice)
-    },
-    selectImage(notice) {
-      console.log(notice)
+    selectImage(noticeId) {
       this.modalShow = !this.modalShow
+      this.idNoticeSelected = noticeId
     },
-    setImageToNotice(image) {
-      console.log(image)
+    async setImageToNotice(image) {
+      await api
+        .setImageToNotice(this.idNoticeSelected, image.id)
+        .then(() => {
+          this.modalShow = !this.modalShow
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      this.notices = await api.loadNotices()
     },
   },
 }
