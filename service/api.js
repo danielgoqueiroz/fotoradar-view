@@ -79,6 +79,20 @@ class Api {
         console.log('Login inválido')
       })
   }
+
+  async loadImages() {
+    const token = localStorage.getItem('token')
+    return await axios
+      .get('image', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch(() => {
+        console.log('Login inválido')
+      })
+  }
 }
 
 export default new Api()
