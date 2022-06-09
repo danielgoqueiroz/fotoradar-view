@@ -4,27 +4,29 @@
     <b-list-group>
       <b-list-group-item v-for="notice in notices" :key="notice.index">
         <b-row>
-          <b-col cols="11"> {{ notice.link }}</b-col>
-          <b-col v-show="notice.image != null" cols="1">
-            <b-img
-              :src="notice.image ? notice.image.link : ''"
-              style="max-width: 50px"
-            />
+          <b-col cols="10"
+            ><p style="font-size: 12px">{{ notice.link }}</p>
           </b-col>
-          <b-col cols="1">
+          <b-col cols="2">
+            <b-img
+              v-show="notice.image != null"
+              :src="notice.image ? notice.image.link : ''"
+              class="img-thumbnail"
+            />
             <b-button
-              v-show="notice.image == null"
+              v-show="notice.image != null"
               @click="selectImage(notice.id)"
-              ><b-icon-image /></b-button
-          ></b-col>
+              ><b-icon-image
+            /></b-button>
+          </b-col>
         </b-row>
       </b-list-group-item>
     </b-list-group>
     <b-modal v-model="modalShow">
       <b-img
+        class="img-selectable"
         v-for="image in images"
         :key="image.id"
-        thumbnail
         :src="image.link"
         @click="setImageToNotice(image, notice)"
       >
@@ -67,3 +69,19 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.img-selectable {
+  max-width: 100%;
+  filter: opacity(50%) grayscale(100%);
+}
+
+.img-selectable:hover {
+  max-width: 100%;
+  filter: opacity(100%) grayscale(0);
+}
+
+.img-thumbnail {
+  max-width: 50px;
+}
+</style>
