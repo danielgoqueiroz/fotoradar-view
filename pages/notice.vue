@@ -6,19 +6,21 @@
         <b-row>
           <b-col> {{ notice.link }}</b-col>
           <b-col v-show="notice.image != null">{{ notice.image }}</b-col>
-          <b-col
-            ><b-form-select
-              v-show="notice.image == null"
-              v-model="selected"
-              :options="images"
-            ></b-form-select
-          ></b-col>
-          <b-button @click="addImageToNotice(selected, notice)"
-            >Salvar</b-button
-          >
+          <b-button @click="selectImage(notice)">Sel. imagem</b-button>
+          <!-- <b-button @click="addImageToNotice(notice)">Salvar</b-button> -->
         </b-row>
       </b-list-group-item>
     </b-list-group>
+    <b-modal v-model="modalShow">
+      <b-img
+        v-for="image in images"
+        :key="image.id"
+        thumbnail
+        :src="image.link"
+        @click="setImageToNotice(image, notice)"
+      >
+      </b-img>
+    </b-modal>
   </b-container>
 </template>
 
@@ -28,19 +30,25 @@ export default {
   data() {
     return {
       notices: [],
-      images: ['image'],
+      images: [{ id: 0, link: '' }],
       imageSelected: {},
+      modalShow: false,
     }
   },
   async mounted() {
     this.notices = await api.loadNotices()
-    api.loadImages().then((res) => {
-      this.images = res.map((i) => i.name)
-    })
+    this.images = await api.loadImages()
   },
   methods: {
-    addImageToNotice(image, notice) {
-      console.log(image, notice)
+    addImageToNotice(notice) {
+      console.log(notice)
+    },
+    selectImage(notice) {
+      console.log(notice)
+      this.modalShow = !this.modalShow
+    },
+    setImageToNotice(image) {
+      console.log(image)
     },
   },
 }
