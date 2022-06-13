@@ -95,8 +95,6 @@ class Api {
   }
 
   async setImageToNotice(idNotice, idImage) {
-    console.log(idNotice)
-    console.log(idImage)
     const token = localStorage.getItem('token')
     return await axios
       .post('/notice/add-image-on-notice', null, {
@@ -111,6 +109,41 @@ class Api {
       })
       .catch((err) => {
         throw err
+      })
+  }
+
+  async getCompanies() {
+    const token = localStorage.getItem('token')
+    return await axios
+      .get('company', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch(() => {
+        console.log('Login inválido')
+      })
+  }
+
+  async updateCompany(company) {
+    console.log(company)
+    const token = localStorage.getItem('token')
+    return await axios
+      .put('company', JSON.stringify(company), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        console.log(res.data)
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
       })
   }
 }
