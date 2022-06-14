@@ -127,7 +127,6 @@ class Api {
   }
 
   async updateCompany(company) {
-    console.log(company)
     const token = localStorage.getItem('token')
     return await axios
       .put('company', JSON.stringify(company), {
@@ -137,7 +136,6 @@ class Api {
         },
       })
       .then((res) => {
-        console.log(res.data)
         return res.data
       })
       .catch((err) => {

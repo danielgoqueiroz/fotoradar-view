@@ -59,6 +59,7 @@ export default {
   },
   methods: {
     async update(company) {
+      console.log(company.cnpj)
       await api.updateCompany(company)
     },
   },

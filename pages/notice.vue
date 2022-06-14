@@ -3,6 +3,7 @@
     <h1>Notices</h1>
     <b-list-group>
       <b-list-group-item v-for="notice in notices" :key="notice.index">
+        <b>{{ notice.company ? notice.company.host : '' }}</b>
         <b-row>
           <b-col cols="10"
             ><p style="font-size: 12px">{{ notice.link }}</p>
