@@ -52,6 +52,28 @@ class Api {
       })
   }
 
+  async deleteImage(image) {
+    const id = image.id
+    const token = localStorage.getItem('token')
+    return await axios
+      .delete(`image?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          crossorigin: 'true',
+        },
+      })
+      .then((res) => {
+        return res
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
+      })
+  }
+
   async loagImages() {
     const token = localStorage.getItem('token')
     return await axios
@@ -73,10 +95,33 @@ class Api {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        return res.data
+        const notices = res.data
+        return notices.map((n) => {
+          n.show = false
+          return n
+        })
       })
       .catch(() => {
         console.log('Login inválido')
+      })
+  }
+
+  async updateNotice(notice) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .put('notice', JSON.stringify(notice), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
       })
   }
 

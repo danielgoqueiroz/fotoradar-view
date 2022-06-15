@@ -1,11 +1,11 @@
 <template>
   <b-container>
-    Companias
+    <h1>Empresas</h1>
     <b-list-group>
       <b-list-group-item v-for="company in companies" :key="company.index">
         <b-form-group label="Host">
           <b-input-group>
-            <b-form-input v-model="company.host"></b-form-input>
+            <b-form-input v-model="company.host" disabled></b-form-input>
             <b-input-group-append>
               <b-button @click="company.show = !company.show" variant="info"
                 >Infos
@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     async update(company) {
-      console.log(company.cnpj)
       await api.updateCompany(company)
     },
   },

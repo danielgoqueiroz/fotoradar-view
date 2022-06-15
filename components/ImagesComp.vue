@@ -19,7 +19,7 @@
           <b-img :src="image.link" class="image-item" />
         </b-col>
         <b-col cols="2">
-          <b-button class="btn">
+          <b-button class="btn" @click="deleteImage(image)">
             <b-icon-trash variant="white"> </b-icon-trash></b-button
         ></b-col>
       </b-row>
@@ -45,12 +45,13 @@ export default {
     this.images = await api.loagImages()
   },
   methods: {
-    saveImage() {
-      api
+    async saveImage() {
+      await api
         .saveImage(this.imageToSave.name, this.imageToSave.link)
         .catch((err) => {
           this.makeToast(true, err)
         })
+      this.images = await api.loadImages()
     },
     makeToast(append, message) {
       this.$bvToast.toast(message, {
@@ -60,6 +61,10 @@ export default {
         variant: 'danger',
         appendToast: append,
       })
+    },
+    async deleteImage(image) {
+      await api.deleteImage(image)
+      this.images = await api.loadImages()
     },
   },
 }

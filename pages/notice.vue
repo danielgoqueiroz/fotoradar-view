@@ -4,23 +4,38 @@
     <b-list-group>
       <b-list-group-item v-for="notice in notices" :key="notice.index">
         <b>{{ notice.company ? notice.company.host : '' }}</b>
-        <b-row>
-          <b-col cols="10"
-            ><p style="font-size: 12px">{{ notice.link }}</p>
-          </b-col>
-          <b-col cols="2">
-            <b-img
-              v-show="notice.image != null"
-              :src="notice.image ? notice.image.link : ''"
-              class="img-thumbnail"
-            />
-            <b-button
-              v-show="notice.image != null"
-              @click="selectImage(notice.id)"
-              ><b-icon-image
-            /></b-button>
-          </b-col>
-        </b-row>
+        <span v-if="notice.processNumber">
+          | Processo: {{ notice.processNumber }}</span
+        >
+        <span v-else> | Sem processo cadastrado</span>
+        <b-form-group>
+          <b-input-group>
+            <b-form-input v-model="notice.link" disabled></b-form-input>
+            <b-input-group-append>
+              <b-button variant="info" @click="notice.show = !notice.show"
+                >Infos
+                <b-icon-arrow-down v-if="!notice.show" />
+                <b-icon-arrow-up v-if="notice.show" />
+              </b-button>
+            </b-input-group-append>
+            <b-input-group-append>
+              <b-img
+                v-show="notice.image != null"
+                :src="notice.image ? notice.image.link : ''"
+                class="img-thumbnail" />
+              <b-button
+                v-show="notice.image != null"
+                @click="selectImage(notice.id)"
+                ><b-icon-image /></b-button
+            ></b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+        <div v-if="notice.show">
+          <b-form-group label="Processo">
+            <b-form-input v-model="notice.processNumber"></b-form-input>
+          </b-form-group>
+          <b-button variant="success" @click="update(notice)">Salvar</b-button>
+        </div>
       </b-list-group-item>
     </b-list-group>
     <b-modal v-model="modalShow">
@@ -65,6 +80,10 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+      this.notices = await api.loadNotices()
+    },
+    async update(notice) {
+      await api.updateNotice(notice)
       this.notices = await api.loadNotices()
     },
   },
