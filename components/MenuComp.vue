@@ -8,7 +8,7 @@
         <b-navbar-nav>
           <b-nav-item href="notice">Notificações</b-nav-item>
           <b-nav-item href="image">Images</b-nav-item>
-          <b-nav-item href="company">Companias</b-nav-item>
+          <b-nav-item href="company">Empresas</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
       <!-- Right -->

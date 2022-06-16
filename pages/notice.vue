@@ -24,7 +24,7 @@
                 :src="notice.image ? notice.image.link : ''"
                 class="img-thumbnail" />
               <b-button
-                v-show="notice.image != null"
+                v-show="notice.image == null"
                 @click="selectImage(notice.id)"
                 ><b-icon-image /></b-button
             ></b-input-group-append>
@@ -64,6 +64,7 @@ export default {
   },
   async mounted() {
     this.notices = await api.loadNotices()
+    console.log(this.notices)
     this.images = await api.loadImages()
   },
   methods: {

@@ -115,8 +115,8 @@ class Api {
           })
           .sort((a, b) => (a.host > b.host ? 1 : -1))
       })
-      .catch(() => {
-        console.log('Login inválido')
+      .catch((err) => {
+        console.error('Falha ao carregar notificações', err)
       })
   }
 
