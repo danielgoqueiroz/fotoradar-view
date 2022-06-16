@@ -3,7 +3,7 @@
     <h1>Empresas</h1>
     <b-list-group>
       <b-list-group-item v-for="company in companies" :key="company.index">
-        <b-form-group label="Host">
+        <b-form-group>
           <b-input-group>
             <b-form-input v-model="company.host" disabled></b-form-input>
             <b-input-group-append>

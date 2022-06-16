@@ -28,6 +28,18 @@ class Api {
       })
   }
 
+  async getUserData() {
+    const token = localStorage.getItem('token')
+    return await axios
+      .get('user', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch(() => null)
+  }
+
   async saveImage(name, link) {
     const image = {
       name,
@@ -96,10 +108,12 @@ class Api {
       })
       .then((res) => {
         const notices = res.data
-        return notices.map((n) => {
-          n.show = false
-          return n
-        })
+        return notices
+          .map((n) => {
+            n.show = false
+            return n
+          })
+          .sort((a, b) => (a.host > b.host ? 1 : -1))
       })
       .catch(() => {
         console.log('Login inválido')
