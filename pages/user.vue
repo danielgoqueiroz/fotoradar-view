@@ -16,6 +16,7 @@
       <b-form-group label="CPF">
         <b-form-input v-model="user.cpf"></b-form-input>
       </b-form-group>
+      <b-button @click="updateUser(user)">Salvar</b-button>
     </b-form-group>
   </b-container>
 </template>
@@ -35,6 +36,9 @@ export default {
   methods: {
     async getUserData() {
       return await api.getUserData()
+    },
+    async updateUser(user) {
+      await api.updateUser(user)
     },
   },
 }

@@ -1,9 +1,24 @@
 <template>
-  <b-container>
-    <b-form-input v-model="username" placeholder="Digite o usuário" />
-    <b-form-input v-model="password" placeholder="Digite a senha" />
-    <b-button @click="login()">Enviar</b-button>
-    {{ token }}
+  <b-container class="login-box">
+    <div class="login">
+      <span v-show="!switchForm">
+        <h3>Login</h3>
+        <b-form-input v-model="username" placeholder="Digite o usuário" />
+        <b-form-input v-model="password" placeholder="Digite a senha" />
+        <b-button @click="login()">Login</b-button>
+      </span>
+      <span v-show="switchForm">
+        <h3>Criar conta</h3>
+        <b-form-input v-model="username" placeholder="Digite o usuário" />
+        <b-form-input
+          v-model="password"
+          type="password"
+          placeholder="Digite a senha"
+        />
+        <b-button @click="createAccount()">Criar conta</b-button>
+      </span>
+      <b-button @click="change()"><b-icon-arrow-left-right /></b-button>
+    </div>
   </b-container>
 </template>
 
@@ -14,6 +29,7 @@ export default {
   name: 'LoginComp',
   data() {
     return {
+      switchForm: false,
       username: 'daniel',
       password: 'senha123',
       response: {},
@@ -21,6 +37,12 @@ export default {
     }
   },
   methods: {
+    async createAccount() {
+      await api.saveUser(this.username, this.password)
+    },
+    change() {
+      this.switchForm = !this.switchForm
+    },
     async login() {
       await api
         .login(this.username, this.password)
@@ -43,3 +65,17 @@ export default {
   },
 }
 </script>
+<style scoped>
+.login-box {
+  height: 500px;
+}
+
+.login {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 250px;
+  max-height: 350px;
+  margin-top: 300px;
+}
+</style>

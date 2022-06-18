@@ -100,6 +100,24 @@ class Api {
       })
   }
 
+  async saveUser(username, password) {
+    const user = {
+      username,
+      password,
+    }
+    return await axios
+      .post('user/save', user)
+      .then((res) => {
+        console.log(res.data)
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
+      })
+  }
+
   async loadNotices() {
     const token = localStorage.getItem('token')
     return await axios
@@ -110,6 +128,10 @@ class Api {
         const notices = res.data
         return notices
           .map((n) => {
+            const paymentsValues = n.payments.map((p) => p.value)
+            if (paymentsValues.length > 0) {
+              n.total = paymentsValues.reduce((a, b) => a + b)
+            }
             n.show = false
             return n
           })
@@ -121,9 +143,48 @@ class Api {
   }
 
   async updateNotice(notice) {
+    console.log(notice)
     const token = localStorage.getItem('token')
     return await axios
       .put('notice', JSON.stringify(notice), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
+      })
+  }
+
+  async updateUser(user) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .put('user', JSON.stringify(user), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
+      })
+  }
+
+  async addPayment(noticeId, payment) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .post(`notice/add-payment?idNotice=${noticeId}&value=${payment}`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
@@ -150,6 +211,24 @@ class Api {
       })
       .catch(() => {
         console.log('Login inválido')
+      })
+  }
+
+  async addLink(imageId, link) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .post(
+        'notice',
+        { imageId, links: [link] },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        throw err
       })
   }
 
@@ -180,8 +259,8 @@ class Api {
       .then((res) => {
         return res.data
       })
-      .catch(() => {
-        console.log('Login inválido')
+      .catch((err) => {
+        console.log('Erro ao buscar empresas', err)
       })
   }
 

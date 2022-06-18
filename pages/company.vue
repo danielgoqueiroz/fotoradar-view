@@ -1,6 +1,8 @@
 <template>
   <b-container>
-    <h1>Empresas</h1>
+    <h1>
+      Empresas <b-link> <b-icon-plus-circle variant="info" /></b-link>
+    </h1>
     <b-list-group>
       <b-list-group-item v-for="company in companies" :key="company.index">
         <b-form-group>
@@ -52,10 +54,12 @@ export default {
   },
   async mounted() {
     const companies = await api.getCompanies()
-    this.companies = companies.map((c) => {
-      c.show = false
-      return c
-    })
+    if (companies) {
+      this.companies = companies.map((c) => {
+        c.show = false
+        return c
+      })
+    }
   },
   methods: {
     async update(company) {

@@ -1,6 +1,18 @@
 <template>
   <b-container>
-    <h1>Notices</h1>
+    <h1>
+      Notificações <b-link> <b-icon-plus-circle variant="info" /></b-link>
+    </h1>
+    <b-form-group>
+      <b-input-group>
+        <b-form-input v-model="link"></b-form-input>
+        <b-input-group-append>
+          <b-button variant="info" @click="addLink(link)"
+            >Adicionar link</b-button
+          >
+        </b-input-group-append>
+      </b-input-group>
+    </b-form-group>
     <b-list-group>
       <b-list-group-item v-for="notice in notices" :key="notice.index">
         <b>{{ notice.company ? notice.company.host : '' }}</b>
@@ -8,6 +20,7 @@
           | Processo: {{ notice.processNumber }}</span
         >
         <span v-else> | Sem processo cadastrado</span>
+        {{ notice.total }}
         <b-form-group>
           <b-input-group>
             <b-form-input v-model="notice.link" disabled></b-form-input>
@@ -31,19 +44,46 @@
           </b-input-group>
         </b-form-group>
         <div v-if="notice.show">
-          <b-form-group label="Processo">
+          <h5>Processo</h5>
+          <b-input-group prepend="Número do processo" class="mt-3">
             <b-form-input v-model="notice.processNumber"></b-form-input>
-          </b-form-group>
-          <b-button variant="success" @click="update(notice)">Salvar</b-button>
+            <b-button variant="success" @click="update(notice)"
+              >Salvar</b-button
+            >
+          </b-input-group>
+
+          <h5>Extrato</h5>
+          <b-card class="extrato-conatiner">
+            <div
+              v-for="payment in notice.payments"
+              :key="payment.index"
+              :prepend="payment.date"
+              class="mt-3"
+            >
+              {{ getDate(payment.date) }} ------- R$ {{ payment.value }}
+            </div>
+
+            <b>Total: R$ {{ notice.total }}</b>
+          </b-card>
+          <b-input-group prepend="Valor de pagamento" class="mt-3">
+            <b-form-input v-model="notice.payment" type="number"></b-form-input>
+            <b-input-group-append>
+              <b-button
+                variant="success"
+                @click="addPayment(notice, notice.payment)"
+                >Adicionar</b-button
+              >
+            </b-input-group-append>
+          </b-input-group>
         </div>
       </b-list-group-item>
     </b-list-group>
     <b-modal v-model="modalShow">
       <b-img
-        class="img-selectable"
         v-for="image in images"
         :key="image.id"
         :src="image.link"
+        class="img-selectable"
         @click="setImageToNotice(image, notice)"
       >
       </b-img>
@@ -56,6 +96,7 @@ import api from '../service/api'
 export default {
   data() {
     return {
+      link: 'https://ndmais.com.br/economia/com-inovacao-em-servicos-e-gestao-correios-buscam-saldo-positivo-em-2017/',
       notices: [],
       images: [{ id: 0, link: '' }],
       idNoticeSelected: {},
@@ -64,13 +105,24 @@ export default {
   },
   async mounted() {
     this.notices = await api.loadNotices()
-    console.log(this.notices)
     this.images = await api.loadImages()
   },
   methods: {
+    getDate(dateValue) {
+      const date = new Date(dateValue)
+      return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+    },
+    async addLink(link) {
+      await api.addLink(3, link)
+    },
     selectImage(noticeId) {
       this.modalShow = !this.modalShow
       this.idNoticeSelected = noticeId
+    },
+    async addPayment(notice, payment) {
+      await api.addPayment(notice.id, payment).catch((err) => console.log(err))
+      this.notices = await api.loadNotices()
+      this.notices.find((n) => n.id === notice.id).show = true
     },
     async setImageToNotice(image) {
       await api
@@ -104,5 +156,9 @@ export default {
 
 .img-thumbnail {
   max-width: 50px;
+}
+
+.extrato-conatiner {
+  max-width: 250px;
 }
 </style>
