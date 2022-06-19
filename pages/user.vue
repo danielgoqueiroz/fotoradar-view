@@ -31,7 +31,6 @@ export default {
   },
   async mounted() {
     this.user = await this.getUserData()
-    console.log(this.user)
   },
   methods: {
     async getUserData() {
