@@ -9,7 +9,7 @@
           <b-input-group>
             <b-form-input v-model="company.host" disabled></b-form-input>
             <b-input-group-append>
-              <b-button @click="company.show = !company.show" variant="info"
+              <b-button variant="info" @click="company.show = !company.show"
                 >Infos
                 <b-icon-arrow-down v-if="!company.show" />
                 <b-icon-arrow-up v-if="company.show" />
