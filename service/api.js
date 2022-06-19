@@ -36,13 +36,9 @@ class Api {
       })
       .then((res) => {
         const user = res.data
-        console.log(user)
         return user
       })
-      .catch((err) => {
-        console.info('$$$$')
-        console.error(JSON.parse(err))
-      })
+      .catch(() => {})
   }
 
   async saveImage(name, link) {
@@ -59,7 +55,6 @@ class Api {
         },
       })
       .then((res) => {
-        console.log(res.data)
         return res.data
       })
       .catch((err) => {
@@ -100,9 +95,7 @@ class Api {
       .then((res) => {
         return res.data
       })
-      .catch(() => {
-        console.log('Login inválido')
-      })
+      .catch(() => {})
   }
 
   async saveUser(username, password) {
@@ -113,7 +106,6 @@ class Api {
     return await axios
       .post('user/save', user)
       .then((res) => {
-        console.log(res.data)
         return res.data
       })
       .catch((err) => {
@@ -131,7 +123,6 @@ class Api {
       })
       .then((res) => {
         const notices = res.data
-        console.log(notices)
         return notices
           .map((n) => {
             const paymentsValues = n.payments.map((p) => p.value)
@@ -143,9 +134,7 @@ class Api {
           })
           .sort((a, b) => (a.host > b.host ? 1 : -1))
       })
-      .catch((err) => {
-        console.error('Falha ao carregar notificações', err)
-      })
+      .catch(() => {})
   }
 
   async updateNoticeProcess(notice) {
@@ -237,9 +226,7 @@ class Api {
       .then((res) => {
         return res.data
       })
-      .catch(() => {
-        console.log('Login inválido')
-      })
+      .catch(() => {})
   }
 
   async addLink(imageId, link) {
@@ -286,12 +273,9 @@ class Api {
       })
       .then((res) => {
         const companies = res.data
-        console.log(companies)
         return companies
       })
-      .catch((err) => {
-        console.log('Erro ao buscar empresas', err)
-      })
+      .catch(() => {})
   }
 
   async updateCompany(company) {

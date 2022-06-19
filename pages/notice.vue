@@ -133,7 +133,7 @@ export default {
       this.idNoticeSelected = noticeId
     },
     async addPayment(notice, payment) {
-      await api.addPayment(notice.id, payment).catch((err) => console.log(err))
+      await api.addPayment(notice.id, payment)
       this.notices = await api.loadNotices()
       this.notices.find((n) => n.id === notice.id).show = true
     },
@@ -143,9 +143,7 @@ export default {
         .then(() => {
           this.modalShow = !this.modalShow
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch(() => {})
       this.notices = await api.loadNotices()
     },
     async updateProcessNumber(notice) {
