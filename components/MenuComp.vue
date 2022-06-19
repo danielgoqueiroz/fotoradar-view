@@ -2,13 +2,22 @@
   <div>
     <!-- Left -->
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="/">FotoRadar</b-navbar-brand>
+      <span>
+        <b-navbar-brand href="/">
+          <object
+            data="/logo_tipo_fotoradar.svg"
+            width="75"
+            height="75"
+            class="circle"
+          ></object></b-navbar-brand
+      ></span>
+
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="notice">Notificações</b-nav-item>
-          <b-nav-item href="image">Images</b-nav-item>
-          <b-nav-item href="company">Empresas</b-nav-item>
+          <b-nav-item to="notice">Notificações</b-nav-item>
+          <b-nav-item to="image">Images</b-nav-item>
+          <b-nav-item to="company">Empresas</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
       <!-- Right -->
@@ -18,7 +27,7 @@
             <b-nav-item v-show="user" disabled
               >Olá {{ user ? user.username : '' }}</b-nav-item
             >
-            <b-nav-item href="user"><b-icon-person /></b-nav-item>
+            <b-nav-item to="user"><b-icon-person /></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar-nav>
@@ -39,8 +48,14 @@ export default {
   },
   methods: {
     async getUserData() {
-      return await api.getUserData().catch(() => this.$router.push('/'))
+      return await api.getUserData().catch(() => this.$router.push('/login'))
     },
   },
 }
 </script>
+<style scoped>
+.circle {
+  background-color: rgb(255 255 255);
+  border-radius: 25%;
+}
+</style>

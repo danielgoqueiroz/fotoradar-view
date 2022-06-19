@@ -1,7 +1,6 @@
 <template>
   <b-container>
     <router-view />
-    <LoginComp />
   </b-container>
 </template>
 

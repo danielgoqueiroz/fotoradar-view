@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <MenuComp />
-    <router-view />
-  </div>
+  <b-container>
+    <LoginComp />
+  </b-container>
 </template>
 
 <script>
