@@ -35,9 +35,14 @@ class Api {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        return res.data
+        const user = res.data
+        console.log(user)
+        return user
       })
-      .catch(() => null)
+      .catch((err) => {
+        console.info('$$$$')
+        console.error(JSON.parse(err))
+      })
   }
 
   async saveImage(name, link) {
@@ -126,6 +131,7 @@ class Api {
       })
       .then((res) => {
         const notices = res.data
+        console.log(notices)
         return notices
           .map((n) => {
             const paymentsValues = n.payments.map((p) => p.value)
@@ -142,8 +148,30 @@ class Api {
       })
   }
 
+  async updateNoticeProcess(notice) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .put(
+        `notice/process?noticeId=${notice.id}&processNumber=${notice.processNumber}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
+      })
+  }
+
   async updateNotice(notice) {
-    console.log(notice)
     const token = localStorage.getItem('token')
     return await axios
       .put('notice', JSON.stringify(notice), {
@@ -257,7 +285,9 @@ class Api {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        return res.data
+        const companies = res.data
+        console.log(companies)
+        return companies
       })
       .catch((err) => {
         console.log('Erro ao buscar empresas', err)

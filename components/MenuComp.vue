@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <div>
     <!-- Left -->
     <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand href="/">FotoRadar</b-navbar-brand>
@@ -23,7 +23,7 @@
         </b-collapse>
       </b-navbar-nav>
     </b-navbar>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     async getUserData() {
-      return await api.getUserData()
+      return await api.getUserData().catch(() => this.$router.push('/'))
     },
   },
 }

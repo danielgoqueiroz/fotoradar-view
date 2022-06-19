@@ -34,7 +34,7 @@
             ><b-form-input v-model="company.mail"></b-form-input
           ></b-form-group>
           <b-form-group label="Responsável (CPF)">
-            <b-form-input v-model="company.suid_responsable"></b-form-input
+            <b-form-input v-model="company.suidResponsable"></b-form-input
           ></b-form-group>
           <b-button variant="success" @click="update(company)">Salvar</b-button>
         </div>

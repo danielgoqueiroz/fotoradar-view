@@ -1,9 +1,14 @@
 <template>
   <b-container>
     <h1>
-      Notificações <b-link> <b-icon-plus-circle variant="info" /></b-link>
+      Notificações
+      <b-link @click="showAddNotice = !showAddNotice">
+        <b-icon-plus-circle
+          v-if="!showAddNotice"
+          variant="info" /><b-icon-x-circle v-else variant="danger"
+      /></b-link>
     </h1>
-    <b-form-group>
+    <b-form-group v-show="showAddNotice">
       <b-input-group>
         <b-form-input v-model="link"></b-form-input>
         <b-input-group-append>
@@ -15,12 +20,19 @@
     </b-form-group>
     <b-list-group>
       <b-list-group-item v-for="notice in notices" :key="notice.index">
-        <b>{{ notice.company ? notice.company.host : '' }}</b>
-        <span v-if="notice.processNumber">
-          | Processo: {{ notice.processNumber }}</span
+        <b-badge variant="info"
+          ><b-icon-link45deg />
+          {{ notice.company ? notice.company.host : '' }}</b-badge
         >
-        <span v-else> | Sem processo cadastrado</span>
-        {{ notice.total }}
+
+        <b-badge variant="success"
+          ><b-icon-coin /> Pagamentos: R$ {{ notice.total }}</b-badge
+        >
+        <b-badge v-if="notice.processNumber"
+          ><b-icon-file-earmark-text /> Número do processo:
+          {{ notice.processNumber }}</b-badge
+        >
+        <b-badge v-else> Sem processo cadastrado</b-badge>
         <b-form-group>
           <b-input-group>
             <b-form-input v-model="notice.link" disabled></b-form-input>
@@ -47,7 +59,7 @@
           <h5>Processo</h5>
           <b-input-group prepend="Número do processo" class="mt-3">
             <b-form-input v-model="notice.processNumber"></b-form-input>
-            <b-button variant="success" @click="update(notice)"
+            <b-button variant="success" @click="updateProcessNumber(notice)"
               >Salvar</b-button
             >
           </b-input-group>
@@ -96,11 +108,12 @@ import api from '../service/api'
 export default {
   data() {
     return {
-      link: 'https://ndmais.com.br/economia/com-inovacao-em-servicos-e-gestao-correios-buscam-saldo-positivo-em-2017/',
+      link: '',
       notices: [],
       images: [{ id: 0, link: '' }],
       idNoticeSelected: {},
       modalShow: false,
+      showAddNotice: false,
     }
   },
   async mounted() {
@@ -135,8 +148,8 @@ export default {
         })
       this.notices = await api.loadNotices()
     },
-    async update(notice) {
-      await api.updateNotice(notice)
+    async updateProcessNumber(notice) {
+      await api.updateNoticeProcess(notice)
       this.notices = await api.loadNotices()
     },
   },
