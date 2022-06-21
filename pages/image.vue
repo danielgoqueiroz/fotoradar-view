@@ -16,25 +16,36 @@
         >
       </b-input-group-append>
     </b-input-group>
-
-    <ImagesComp />
+    <ImagesComp :images="images" />
   </b-container>
 </template>
 
 <script>
 import api from '../service/api'
 export default {
+  emits: ['updateImages'],
   data() {
     return {
       showAddImage: false,
       image: { name: '', link: '' },
+      images: [],
     }
   },
+  async mounted() {
+    this.images = await this.loadImages()
+  },
   methods: {
+    updateImages() {
+      this.images = this.loadImages()
+    },
+    async loadImages() {
+      return await api.loadImages()
+    },
     async saveImage(image) {
       await api.saveImage(image.name, image.link).catch((err) => {
         this.makeToast(true, err)
       })
+      this.images = await api.loadImages()
     },
     makeToast(append, message) {
       this.$bvToast.toast(message, {

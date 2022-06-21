@@ -38,7 +38,9 @@ class Api {
         const user = res.data
         return user
       })
-      .catch(() => {})
+      .catch((e) => {
+        throw e
+      })
   }
 
   async saveImage(name, link) {
@@ -95,7 +97,9 @@ class Api {
       .then((res) => {
         return res.data
       })
-      .catch(() => {})
+      .catch((e) => {
+        throw e
+      })
   }
 
   async saveUser(username, password) {
@@ -134,7 +138,9 @@ class Api {
           })
           .sort((a, b) => (a.host > b.host ? 1 : -1))
       })
-      .catch(() => {})
+      .catch((e) => {
+        throw e
+      })
   }
 
   async updateNoticeProcess(notice) {
@@ -226,7 +232,9 @@ class Api {
       .then((res) => {
         return res.data
       })
-      .catch(() => {})
+      .catch((e) => {
+        throw e
+      })
   }
 
   async addLink(imageId, link) {
@@ -275,7 +283,9 @@ class Api {
         const companies = res.data
         return companies
       })
-      .catch(() => {})
+      .catch((e) => {
+        throw e
+      })
   }
 
   async updateCompany(company) {

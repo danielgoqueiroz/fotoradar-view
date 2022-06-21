@@ -5,7 +5,7 @@
         <h3>Login</h3>
         <b-form-input v-model="username" placeholder="Digite o usuário" />
         <b-form-input v-model="password" placeholder="Digite a senha" />
-        <b-button @click="login()">Login</b-button>
+        <b-button @click="login(username, password)">Login</b-button>
       </span>
       <span v-show="switchForm">
         <h3>Criar conta</h3>
@@ -15,7 +15,9 @@
           type="password"
           placeholder="Digite a senha"
         />
-        <b-button @click="createAccount()">Criar conta</b-button>
+        <b-button @click="createAccount(username, password)"
+          >Criar conta</b-button
+        >
       </span>
       <b-button @click="change()"><b-icon-arrow-left-right /></b-button>
     </div>
@@ -37,15 +39,17 @@ export default {
     }
   },
   methods: {
-    async createAccount() {
-      await api.saveUser(this.username, this.password)
+    async createAccount(username, password) {
+      await api
+        .saveUser(username, password)
+        .then(() => (this.switchForm = !this.switchForm))
     },
     change() {
       this.switchForm = !this.switchForm
     },
-    async login() {
+    async login(username, password) {
       await api
-        .login(this.username, this.password)
+        .login(username, password)
         .then(() => {
           this.$router.push('image')
         })

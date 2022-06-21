@@ -10,7 +10,7 @@
           <b-img :src="image.link" class="image-item" />
         </b-col>
         <b-col cols="2">
-          <b-button class="btn" @click="deleteImage(image)">
+          <b-button class="btn" @click="$emit('deleteImage')">
             <b-icon-trash variant="white"> </b-icon-trash></b-button
         ></b-col>
       </b-row>
@@ -23,13 +23,11 @@ import api from '../service/api'
 
 export default {
   name: 'ImagesComp',
-  data() {
-    return {
-      images: [],
-    }
-  },
-  async mounted() {
-    this.images = await api.loagImages()
+  props: {
+    images: {
+      type: Object,
+      default: () => {},
+    },
   },
   methods: {
     makeToast(append, message) {
@@ -43,7 +41,8 @@ export default {
     },
     async deleteImage(image) {
       await api.deleteImage(image)
-      this.images = await api.loadImages()
+      await this.loadImages().catch(() => this.$router.push('login'))
+      this.$emit('updateImages')
     },
   },
 }

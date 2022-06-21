@@ -16,6 +16,9 @@
             >Adicionar link</b-button
           >
         </b-input-group-append>
+        <b-input-group-append>
+          <b-button><b-icon-image /></b-button>
+        </b-input-group-append>
       </b-input-group>
     </b-form-group>
     <b-list-group>
@@ -117,8 +120,10 @@ export default {
     }
   },
   async mounted() {
-    this.notices = await api.loadNotices()
-    this.images = await api.loadImages()
+    this.notices = await api
+      .loadNotices()
+      .catch(() => this.$router.push('login'))
+    this.images = await api.loadImages().catch(() => this.$router.push('login'))
   },
   methods: {
     getDate(dateValue) {
@@ -127,6 +132,9 @@ export default {
     },
     async addLink(link) {
       await api.addLink(3, link)
+      this.notices = await api
+        .loadNotices()
+        .catch(() => this.$router.push('login'))
     },
     selectImage(noticeId) {
       this.modalShow = !this.modalShow
@@ -134,7 +142,9 @@ export default {
     },
     async addPayment(notice, payment) {
       await api.addPayment(notice.id, payment)
-      this.notices = await api.loadNotices()
+      this.notices = await api
+        .loadNotices()
+        .catch(() => this.$router.push('login'))
       this.notices.find((n) => n.id === notice.id).show = true
     },
     async setImageToNotice(image) {
@@ -144,11 +154,15 @@ export default {
           this.modalShow = !this.modalShow
         })
         .catch(() => {})
-      this.notices = await api.loadNotices()
+      this.notices = await api
+        .loadNotices()
+        .catch(() => this.$router.push('login'))
     },
     async updateProcessNumber(notice) {
       await api.updateNoticeProcess(notice)
-      this.notices = await api.loadNotices()
+      this.notices = await api
+        .loadNotices()
+        .catch(() => this.$router.push('login'))
     },
   },
 }

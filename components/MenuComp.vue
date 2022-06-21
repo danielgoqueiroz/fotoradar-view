@@ -48,7 +48,11 @@ export default {
   },
   methods: {
     async getUserData() {
-      return await api.getUserData().catch(() => this.$router.push('/login'))
+      console.log('Fazendo login')
+      return await api.getUserData().catch((err) => {
+        console.log('Erro de login', err)
+        this.$router.push('/login')
+      })
     },
   },
 }

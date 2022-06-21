@@ -30,14 +30,14 @@ export default {
     }
   },
   async mounted() {
-    this.user = await this.getUserData()
+    this.user = await this.getUserData().catch(() => this.$router.push('login'))
   },
   methods: {
     async getUserData() {
-      return await api.getUserData()
+      return await api.getUserData().catch(() => this.$router.push('login'))
     },
     async updateUser(user) {
-      await api.updateUser(user)
+      await api.updateUser(user).catch(() => this.$router.push('login'))
     },
   },
 }

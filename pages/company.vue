@@ -53,7 +53,9 @@ export default {
     }
   },
   async mounted() {
-    const companies = await api.getCompanies()
+    const companies = await api
+      .getCompanies()
+      .catch(() => this.$router.push('login'))
     if (companies) {
       this.companies = companies.map((c) => {
         c.show = false
