@@ -10,7 +10,7 @@
           <b-img :src="image.link" class="image-item" />
         </b-col>
         <b-col cols="2">
-          <b-button class="btn" @click="$emit('deleteImage')">
+          <b-button class="btn" @click="emitEvent(image)">
             <b-icon-trash variant="white"> </b-icon-trash></b-button
         ></b-col>
       </b-row>
@@ -19,17 +19,19 @@
 </template>
 
 <script>
-import api from '../service/api'
-
 export default {
   name: 'ImagesComp',
   props: {
     images: {
-      type: Object,
+      type: Array,
       default: () => {},
     },
   },
+  emits: ['delete'],
   methods: {
+    emitEvent(image) {
+      this.$emit('delete', image)
+    },
     makeToast(append, message) {
       this.$bvToast.toast(message, {
         title: 'Mensagem',
@@ -38,11 +40,6 @@ export default {
         variant: 'danger',
         appendToast: append,
       })
-    },
-    async deleteImage(image) {
-      await api.deleteImage(image)
-      await this.loadImages().catch(() => this.$router.push('login'))
-      this.$emit('updateImages')
     },
   },
 }

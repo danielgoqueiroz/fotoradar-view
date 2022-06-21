@@ -16,14 +16,13 @@
         >
       </b-input-group-append>
     </b-input-group>
-    <ImagesComp :images="images" />
+    <ImagesComp :images="images" @delete="(i) => deleteImage(i)" />
   </b-container>
 </template>
 
 <script>
 import api from '../service/api'
 export default {
-  emits: ['updateImages'],
   data() {
     return {
       showAddImage: false,
@@ -46,6 +45,12 @@ export default {
         this.makeToast(true, err)
       })
       this.images = await api.loadImages()
+    },
+    async deleteImage(image) {
+      await api.deleteImage(image)
+      this.images = await this.loadImages().catch(() =>
+        this.$router.push('login')
+      )
     },
     makeToast(append, message) {
       this.$bvToast.toast(message, {
