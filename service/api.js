@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
 const axios = Axios.create({
-  baseURL: 'http://localhost:8080/api/',
+  baseURL: 'http://localhost:8080/',
   withCredentials: false,
   headers: {
     'Access-Control-Allow-Origin': '*',
@@ -20,10 +20,17 @@ class Api {
         })
       )
       .then((res, err) => {
+        if (err) {
+          console.log('ERRO')
+
+          console.error(err)
+        }
+        console.log('token')
         this.token = res.data.access_token
         localStorage.setItem('token', res.data.access_token)
       })
       .catch((erro) => {
+        console.log(erro)
         throw erro
       })
   }
@@ -31,7 +38,7 @@ class Api {
   async getUserData() {
     const token = localStorage.getItem('token')
     return await axios
-      .get('user', {
+      .get('/api/user', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -50,7 +57,7 @@ class Api {
     }
     const token = localStorage.getItem('token')
     return await axios
-      .post('image', JSON.stringify(image), {
+      .post('/api/image', JSON.stringify(image), {
         headers: {
           Authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
@@ -70,7 +77,7 @@ class Api {
     const id = image.id
     const token = localStorage.getItem('token')
     return await axios
-      .delete(`image?id=${id}`, {
+      .delete(`/api/image?id=${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
@@ -91,7 +98,7 @@ class Api {
   async loagImages() {
     const token = localStorage.getItem('token')
     return await axios
-      .get('image', {
+      .get('/api/image', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -108,7 +115,7 @@ class Api {
       password,
     }
     return await axios
-      .post('user/save', user)
+      .post('/api/user/save', user)
       .then((res) => {
         return res.data
       })
@@ -122,7 +129,7 @@ class Api {
   async loadNotices() {
     const token = localStorage.getItem('token')
     return await axios
-      .get('notice', {
+      .get('/api/notice', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -147,7 +154,7 @@ class Api {
     const token = localStorage.getItem('token')
     return await axios
       .put(
-        `notice/process?noticeId=${notice.id}&processNumber=${notice.processNumber}`,
+        `/api/notice/process?noticeId=${notice.id}&processNumber=${notice.processNumber}`,
         null,
         {
           headers: {
@@ -169,7 +176,7 @@ class Api {
   async updateNotice(notice) {
     const token = localStorage.getItem('token')
     return await axios
-      .put('notice', JSON.stringify(notice), {
+      .put('/api/notice', JSON.stringify(notice), {
         headers: {
           Authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
@@ -186,9 +193,10 @@ class Api {
   }
 
   async updateUser(user) {
+    console.log(user)
     const token = localStorage.getItem('token')
     return await axios
-      .put('user', JSON.stringify(user), {
+      .put('/api/user', JSON.stringify(user), {
         headers: {
           Authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
@@ -207,12 +215,16 @@ class Api {
   async addPayment(noticeId, payment) {
     const token = localStorage.getItem('token')
     return await axios
-      .post(`notice/add-payment?idNotice=${noticeId}&value=${payment}`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'content-Type': 'application/json',
-        },
-      })
+      .post(
+        `/api/notice/add-payment?idNotice=${noticeId}&value=${payment}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'content-Type': 'application/json',
+          },
+        }
+      )
       .then((res) => {
         return res.data
       })
@@ -226,7 +238,7 @@ class Api {
   async loadImages() {
     const token = localStorage.getItem('token')
     return await axios
-      .get('image', {
+      .get('/api/image', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -241,7 +253,7 @@ class Api {
     const token = localStorage.getItem('token')
     return await axios
       .post(
-        'notice',
+        '/api/notice',
         { imageId, links: [link] },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -258,7 +270,7 @@ class Api {
   async setImageToNotice(idNotice, idImage) {
     const token = localStorage.getItem('token')
     return await axios
-      .post('/notice/add-image-on-notice', null, {
+      .post('/api/notice/add-image-on-notice', null, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
           idNotice,
@@ -276,7 +288,7 @@ class Api {
   async getCompanies() {
     const token = localStorage.getItem('token')
     return await axios
-      .get('company', {
+      .get('/api/company', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -291,7 +303,7 @@ class Api {
   async updateCompany(company) {
     const token = localStorage.getItem('token')
     return await axios
-      .put('company', JSON.stringify(company), {
+      .put('/api/company', JSON.stringify(company), {
         headers: {
           Authorization: `Bearer ${token}`,
           'content-Type': 'application/json',

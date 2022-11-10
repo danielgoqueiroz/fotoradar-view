@@ -32,8 +32,8 @@ export default {
   data() {
     return {
       switchForm: false,
-      username: 'daniel',
-      password: 'senha123',
+      username: 'teste',
+      password: 'teste',
       response: {},
       token: '',
     }

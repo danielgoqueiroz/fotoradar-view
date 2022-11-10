@@ -17,6 +17,7 @@
         <b-form-input v-model="user.cpf"></b-form-input>
       </b-form-group>
       <b-button @click="updateUser(user)">Salvar</b-button>
+      <b-button @click="logout()">Logout</b-button>
     </b-form-group>
   </b-container>
 </template>
@@ -33,6 +34,10 @@ export default {
     this.user = await this.getUserData().catch(() => this.$router.push('login'))
   },
   methods: {
+    logout() {
+      localStorage.setItem('token', null)
+      this.$router.push('login')
+    },
     async getUserData() {
       return await api.getUserData().catch(() => this.$router.push('login'))
     },

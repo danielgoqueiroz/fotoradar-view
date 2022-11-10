@@ -137,7 +137,7 @@ export default {
       images: [{ id: 0, link: '' }],
       idNoticeSelected: {},
       modalShow: false,
-      showAddNotice: true,
+      showAddNotice: false,
     }
   },
   async mounted() {
@@ -184,6 +184,7 @@ export default {
         .catch(() => this.$router.push('login'))
     },
     async updateProcessNumber(notice) {
+      console.log('Salvando processo')
       await api.updateNoticeProcess(notice)
       this.notices = await api
         .loadNotices()
