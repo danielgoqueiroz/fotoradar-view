@@ -126,35 +126,40 @@ class Api {
       })
   }
 
-  async loadNotices() {
+  async loadPages() {
     const token = localStorage.getItem('token')
     return await axios
-      .get('/api/notice', {
+      .get('/api/page', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        const notices = res.data
-        return notices
-          .map((n) => {
-            const paymentsValues = n.payments.map((p) => p.value)
-            if (paymentsValues.length > 0) {
-              n.total = paymentsValues.reduce((a, b) => a + b)
-            }
-            n.show = false
-            return n
-          })
-          .sort((a, b) => (a.host > b.host ? 1 : -1))
+        const pages = res.data
+        if (pages) {
+          return pages
+            .map((page) => {
+              if (page.payments) {
+                const paymentsValues = page.payments.map((p) => p.value)
+                if (paymentsValues.length > 0) {
+                  page.total = paymentsValues.reduce((a, b) => a + b)
+                }
+              }
+              page.show = false
+              return page
+            })
+            .sort((a, b) => (a.host > b.host ? 1 : -1))
+        }
       })
       .catch((e) => {
+        console.error(e)
         throw e
       })
   }
 
-  async updateNoticeProcess(notice) {
+  async updatePageProcess(page) {
     const token = localStorage.getItem('token')
     return await axios
       .put(
-        `/api/notice/process?noticeId=${notice.id}&processNumber=${notice.processNumber}`,
+        `/api/page/process?pageId=${page.id}&processNumber=${page.processNumber}`,
         null,
         {
           headers: {
@@ -173,10 +178,10 @@ class Api {
       })
   }
 
-  async updateNotice(notice) {
+  async updatePage(page) {
     const token = localStorage.getItem('token')
     return await axios
-      .put('/api/notice', JSON.stringify(notice), {
+      .put('/api/page', JSON.stringify(page), {
         headers: {
           Authorization: `Bearer ${token}`,
           'content-Type': 'application/json',
@@ -212,19 +217,15 @@ class Api {
       })
   }
 
-  async addPayment(noticeId, payment) {
+  async addPayment(pageId, payment) {
     const token = localStorage.getItem('token')
     return await axios
-      .post(
-        `/api/notice/add-payment?idNotice=${noticeId}&value=${payment}`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'content-Type': 'application/json',
-          },
-        }
-      )
+      .post(`/api/page/add-payment?idPage=${pageId}&value=${payment}`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-Type': 'application/json',
+        },
+      })
       .then((res) => {
         return res.data
       })
@@ -253,7 +254,7 @@ class Api {
     const token = localStorage.getItem('token')
     return await axios
       .post(
-        '/api/notice',
+        '/api/page',
         { imageId, links: [link] },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -267,14 +268,15 @@ class Api {
       })
   }
 
-  async setImageToNotice(idNotice, idImage) {
+  async addPageByImage(url, image) {
+    console.log(url, image.id)
     const token = localStorage.getItem('token')
     return await axios
-      .post('/api/notice/add-image-on-notice', null, {
+      .post('/api/page/add-image-on-page', null, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
-          idNotice,
-          idImage,
+          url,
+          imageId: image.id,
         },
       })
       .then((res) => {

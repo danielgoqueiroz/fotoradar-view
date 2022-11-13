@@ -28,6 +28,8 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
+    "@vue/compiler-dom": "^3.2.45",
+    "@volar-plugins/vetur": "latest",
     "@babel/eslint-parser": "^7.16.3",
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",

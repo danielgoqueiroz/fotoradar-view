@@ -9,13 +9,13 @@
             width="75"
             height="75"
             class="circle"
-          ></object></b-navbar-brand
+          ></object> </b-navbar-brand
       ></span>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item to="notice">Notificações</b-nav-item>
+          <b-nav-item to="page">Páginas</b-nav-item>
           <b-nav-item to="image">Images</b-nav-item>
           <b-nav-item to="company">Empresas</b-nav-item>
         </b-navbar-nav>

@@ -8,10 +8,12 @@
       /></b-link>
     </h1>
     <b-input-group v-show="showAddImage" prepend="Adicionar">
-      <b-form-input v-model="image.name" />
-      <b-form-input v-model="image.link" />
+      <b-form-input v-model="image.link" placeholder="link" />
+      <b-form-input v-model="nameFromLink" disabled placeholder="nome" />
       <b-input-group-append>
-        <b-button variant="outline-success" @click="saveImage(image)"
+        <b-button
+          variant="outline-success"
+          @click="saveImage(image.link, nameFromLink)"
           >Salvar</b-button
         >
       </b-input-group-append>
@@ -30,21 +32,35 @@ export default {
       images: [],
     }
   },
+  computed: {
+    nameFromLink() {
+      const names = this.image.link.split('/')
+      const name = names[names.length - 1]
+      return name.split('.jpg')[0]
+    },
+  },
   async mounted() {
     this.images = await this.loadImages()
   },
   methods: {
+    updateName() {
+      const names = this.image.link.split('/')
+      const name = names[names.length - 1]
+      this.image.name = name.split('.jpg')[0]
+    },
     updateImages() {
-      this.images = this.loadImages()
+      this.images = this.loadImages().catch(() => this.$router.push('login'))
     },
     async loadImages() {
-      return await api.loadImages()
+      return await api.loadImages().catch(() => this.$router.push('login'))
     },
-    async saveImage(image) {
-      await api.saveImage(image.name, image.link).catch((err) => {
+    async saveImage(name, link) {
+      await api.saveImage(link, name).catch((err) => {
         this.makeToast(true, err)
       })
-      this.images = await api.loadImages()
+      this.images = await api
+        .loadImages()
+        .catch(() => this.$router.push('login'))
     },
     async deleteImage(image) {
       await api.deleteImage(image)
