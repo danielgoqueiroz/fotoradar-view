@@ -70,8 +70,8 @@ export default {
       return this.pages.map((p) => {
         return {
           url: p.url,
-          Imagens: p.images ? p.images.length : 0,
-          site: p.company ? p.company.host : '',
+          Imagem: p.image.link,
+          // site: p.company ? p.company.host : '',
         }
       })
     },
@@ -79,7 +79,7 @@ export default {
   async mounted() {
     this.pages = await api.loadPages().catch(() => this.$router.push('login'))
     await console.log(this.pages)
-    this.images = await api.loadImages().catch(() => this.$router.push('login'))
+    // this.images = await api.loadImages().catch(() => this.$router.push('login'))
   },
   methods: {
     showOrHide(page) {

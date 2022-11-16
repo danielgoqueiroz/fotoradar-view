@@ -1,34 +1,29 @@
 <template>
   <div>
-    <b-container
-      v-for="image in images"
-      :key="image.index"
-      class="img-container images-content"
-    >
-      <b-row>
-        <b-col cols="4">
-          <b-img :src="image.link" class="image-item" />
-        </b-col>
-        <b-col cols="6">
-          <div>{{ image.name }}</div>
-        </b-col>
-        <b-col cols="2">
+    <div>
+      <b-card-group deck>
+        <b-card v-for="image in images" :key="image.index" :header="image.name">
+          <b-card-img :src="image.link" />
+
           <b-button class="btn" @click="emitEvent(image)">
             <b-icon-trash variant="white" />
           </b-button>
-          <b-button @click="openPageModal(image)" class="btn">
+          <b-button class="btn" @click="openPageModal(image)">
             <b-icon-book variant="white" />
           </b-button>
-        </b-col>
-      </b-row>
+          <b-button class="btn" :to="`image?id=${image.id}`">
+            <b-icon-info variant="white" />
+          </b-button>
+        </b-card>
+      </b-card-group>
+    </div>
 
-      <b-modal v-model="showPageModal" hide-footer>
-        <template #modal-title> Adicionar página </template>
-        <b-input v-model="urlToSave" />
-        <b-button @click="hideModalPage">Cancelar</b-button>
-        <b-button variant="success" @click="salvarPage()">Salvar</b-button>
-      </b-modal>
-    </b-container>
+    <b-modal v-model="showPageModal" hide-footer>
+      <template #modal-title> Adicionar página </template>
+      <b-input v-model="urlToSave" />
+      <b-button @click="hideModalPage">Cancelar</b-button>
+      <b-button variant="success" @click="savePage()">Salvar</b-button>
+    </b-modal>
   </div>
 </template>
 
@@ -55,9 +50,10 @@ export default {
     hideModalPage() {
       this.showPageModal = !this.showPageModal
     },
-    async salvarPage() {
+    async savePage() {
       console.log(this.urlToSave, this.selectedImage)
       await api.addPageByImage(this.urlToSave, this.selectedImage)
+      this.showPageModal = false
     },
     openPageModal(image) {
       console.log(image)

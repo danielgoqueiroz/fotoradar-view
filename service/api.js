@@ -126,6 +126,39 @@ class Api {
       })
   }
 
+  async getImage(id) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .get(`/api/image/find-by-id?id=${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((e) => {
+        console.error(e)
+        throw e
+      })
+  }
+
+  async getPagesByImageId(id) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .get(`/api/page/find-by-image-id?id=${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        console.log(res)
+        return res.data
+      })
+      .catch((e) => {
+        console.error('Errro')
+
+        console.error(e)
+        throw e
+      })
+  }
+
   async loadPages() {
     const token = localStorage.getItem('token')
     return await axios
@@ -133,21 +166,10 @@ class Api {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        console.log('carregando paginas')
+        console.log(res)
         const pages = res.data
-        if (pages) {
-          return pages
-            .map((page) => {
-              if (page.payments) {
-                const paymentsValues = page.payments.map((p) => p.value)
-                if (paymentsValues.length > 0) {
-                  page.total = paymentsValues.reduce((a, b) => a + b)
-                }
-              }
-              page.show = false
-              return page
-            })
-            .sort((a, b) => (a.host > b.host ? 1 : -1))
-        }
+        return pages
       })
       .catch((e) => {
         console.error(e)
@@ -280,9 +302,12 @@ class Api {
         },
       })
       .then((res) => {
+        console.log(res)
         return res.data
       })
       .catch((err) => {
+        console.error(err)
+
         throw err
       })
   }
