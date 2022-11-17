@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Left -->
     <b-navbar toggleable="lg" type="dark" variant="info">
       <span>
         <b-navbar-brand href="/">
@@ -20,7 +19,6 @@
           <b-nav-item to="company">Empresas</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
-      <!-- Right -->
       <b-navbar-nav class="ml-auto">
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
@@ -43,6 +41,7 @@ export default {
       user: {},
     }
   },
+
   async mounted() {
     this.user = await this.getUserData()
   },

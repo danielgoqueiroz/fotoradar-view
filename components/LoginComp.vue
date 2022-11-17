@@ -51,7 +51,7 @@ export default {
       await api
         .login(username, password)
         .then(() => {
-          this.$router.push('image')
+          this.$router.push('images')
         })
         .catch((err) => {
           this.makeToast(false, err.message)
