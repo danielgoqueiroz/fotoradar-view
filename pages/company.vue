@@ -1,9 +1,91 @@
 <template>
   <b-container>
-    <h1>Empresas</h1>
-    <b-list-group>
-      <b-table striped hover :items="companiesTable"></b-table>
-    </b-list-group>
+    <b-form>
+      <h1>{{ company.host }}</h1>
+      <b-form-group
+        id="input-group-1"
+        label="Host"
+        label-for="input-1"
+        description="Endereço do host do site"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="company.host"
+          placeholder="host"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="input-group-1"
+        label="Nome"
+        label-for="input-1"
+        description="Nome social da empresa"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="company.name"
+          type="text"
+          placeholder="nome da empresa"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="input-group-1"
+        label="CNPJ"
+        label-for="input-1"
+        description="Nome da empresa"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="company.cnpj"
+          type="email"
+          placeholder="Enter email"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="input-group-1"
+        label="E-mail"
+        label-for="input-1"
+        description="Endereço de e-mail"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="company.email"
+          type="email"
+          placeholder="e-mail"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="input-group-1"
+        label="Telefone"
+        label-for="input-1"
+        description="E-mail de contato"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="company.phone"
+          type="email"
+          placeholder="Enter email"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="input-group-1"
+        label="Endereço"
+        label-for="input-1"
+        description="Telefone de contato"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="company.address"
+          type="email"
+          placeholder="Enter email"
+          required
+        ></b-form-input>
+      </b-form-group>
+    </b-form>
   </b-container>
 </template>
 
@@ -13,29 +95,14 @@ export default {
   name: 'Company',
   data() {
     return {
-      companies: [],
+      company: {},
     }
-  },
-  computed: {
-    companiesTable() {
-      return this.companies.map((company) => {
-        return {
-          host: company.host,
-          // Imagem: p.image.link,
-        }
-      })
-    },
   },
   async mounted() {
-    const companies = await api
-      .getCompanies()
-      .catch(() => this.$router.push('login'))
-    if (companies) {
-      this.companies = companies.map((c) => {
-        c.show = false
-        return c
-      })
-    }
+    const url = new URL(window.location.href)
+    const id = url.searchParams.get('id')
+    const company = await api.getCompanyId(id)
+    this.company = company
   },
   methods: {
     async update(company) {

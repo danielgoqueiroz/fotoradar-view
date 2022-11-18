@@ -1,61 +1,54 @@
 <template>
-  <b-container fluid>
-    <b-container>
-      <b-input-group v-show="showAddImage" prepend="Adicionar">
-        <b-form-input v-model="addImage.link" placeholder="link" />
-        <b-form-input v-model="nameFromLink" disabled placeholder="nome" />
-        <b-input-group-append>
-          <b-button
-            variant="outline-success"
-            @click="saveImage(addImage.link, nameFromLink)"
-            >Salvar</b-button
-          >
-        </b-input-group-append>
-      </b-input-group>
-    </b-container>
-    <b-container>
-      <b-form-input
-        v-model="range"
-        min="100"
-        max="250"
-        type="range"
-      ></b-form-input>
-
-      <b-card-group deck>
-        <b-card class="add-image-box">
+  <b-container content-class="mt-3">
+    <b-container fluid="md" content-class="mt-3">
+      <b-row>
+        <b-col cols="1">
           <b-link class="add-image" @click="showAddImage = !showAddImage">
             <b-icon-plus-circle v-if="!showAddImage" variant="info" />
-            <b-icon-x-circle v-else
-          /></b-link>
-        </b-card>
-        <!-- <b-col v-for="image in images" :key="image.index"> -->
-        <div v-for="image in images" :key="image.index">
-          <b-button class="btn" @click="deleteImage(image)">
-            <b-icon-trash variant="white" />
-          </b-button>
-          <b-button class="btn" :to="`image?id=${image.id}`">
-            <b-icon-info variant="white" />
-          </b-button>
-          <b-img
-            :style="sizeImages"
-            thumbnail
-            fluid
-            sizes="sm"
-            :src="image.link"
-            alt="Image 1"
-          />
-        </div>
-
-        <!-- <b-card v-for="image in images" :key="image.index" :header="image.name">
-          <b-card-img :src="image.link" />
-
-          <b-button class="btn" @click="deleteImage(image)">
-            <b-icon-trash variant="white" />
-          </b-button>
-          <b-button class="btn" :to="`image?id=${image.id}`">
-            <b-icon-info variant="white" />
-          </b-button>
-        </b-card> -->
+            <b-icon-x-circle v-else /></b-link
+        ></b-col>
+        <b-col cols="8"
+          ><b-input-group v-show="showAddImage" prepend="Adicionar">
+            <b-form-input v-model="addImage.link" placeholder="link" />
+            <b-form-input v-model="nameFromLink" disabled placeholder="nome" />
+            <b-input-group-append>
+              <b-button
+                variant="outline-success"
+                @click="saveImage(addImage.link, nameFromLink)"
+                >Salvar</b-button
+              >
+            </b-input-group-append>
+          </b-input-group></b-col
+        >
+        <b-col cols="2">
+          <b-form-input
+            v-model="range"
+            min="1"
+            max="10"
+            type="range"
+          ></b-form-input>
+        </b-col>
+        <b-col cols="1">{{ range }}</b-col>
+      </b-row>
+    </b-container>
+    <b-container content-class="mt-3">
+      <b-card-group deck>
+        <b-col>
+          <b-row v-for="imageI in imagesArrays" :key="imageI.index">
+            <b-card
+              v-for="image in imageI"
+              :key="image.index"
+              :img-src="image.link"
+            >
+              <b-button class="btn" @click="deleteImage(image)">
+                <b-icon-trash variant="white" />
+              </b-button>
+              <b-button class="btn" :to="`image?id=${image.id}`">
+                <b-icon-info variant="white" />
+              </b-button>
+            </b-card>
+          </b-row>
+        </b-col>
       </b-card-group>
     </b-container>
   </b-container>
@@ -67,7 +60,7 @@ export default {
   name: 'ImagesComp',
   data() {
     return {
-      range: 150,
+      range: 3,
       images: [],
       addImage: {},
       showAddImage: false,
@@ -78,6 +71,17 @@ export default {
   },
 
   computed: {
+    imagesArrays() {
+      const imagesArrays = []
+      const chunkSize = this.range
+      const images = this.images
+      for (let i = 0; i < images.length; i += chunkSize) {
+        const chunk = images.slice(i, i + chunkSize)
+        imagesArrays.push(chunk)
+      }
+      console.log(imagesArrays)
+      return imagesArrays
+    },
     sizeImages() {
       return `height: ${this.range}px`
     },
@@ -159,6 +163,6 @@ export default {
 }
 
 .add-image {
-  font-size: 75px;
+  font-size: 25px;
 }
 </style>

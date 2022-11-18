@@ -16,7 +16,7 @@
         <b-navbar-nav>
           <b-nav-item to="images">Imagens</b-nav-item>
           <b-nav-item to="pages">Páginas</b-nav-item>
-          <b-nav-item to="company">Empresas</b-nav-item>
+          <b-nav-item to="companies">Empresas</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
       <b-navbar-nav class="ml-auto">

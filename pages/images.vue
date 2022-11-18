@@ -15,9 +15,7 @@ export default {
     }
   },
   computed: {},
-  // async mounted() {
-  //   this.images = await this.loadImages()
-  // },
+
   methods: {
     updateName() {
       const names = this.image.link.split('/')
@@ -27,12 +25,7 @@ export default {
     // updateImages() {
     //   this.images = this.loadImages().catch(() => this.$router.push('login'))
     // },
-    async deleteImage(image) {
-      // await api.deleteImage(image)
-      // this.images = await this.loadImages().catch(() =>
-      //   this.$router.push('login')
-      // )
-    },
+
     makeToast(append, message) {
       this.$bvToast.toast(message, {
         title: 'Mensagem',
