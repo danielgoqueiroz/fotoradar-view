@@ -230,6 +230,21 @@ class Api {
       })
   }
 
+  async loadProcessById(id) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .get(`/api/process/find-by-id?id=${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((e) => {
+        console.error(e)
+        throw e
+      })
+  }
+
   async saveProcess(pageId, processNumber) {
     const token = localStorage.getItem('token')
     return await axios
@@ -258,6 +273,29 @@ class Api {
     return await axios
       .put(
         `/api/page/process?pageId=${page.id}&processNumber=${page.processNumber}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
+      })
+  }
+
+  async updateProcessNumber(pageId, processNumber) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .put(
+        `/api/page/update-process?id=${pageId}&processNumber=${processNumber}`,
         null,
         {
           headers: {

@@ -40,13 +40,20 @@
         <b-form-input
           id="input-1"
           v-model="processNumber"
-          :disabled="page.process"
-          type="text"
+          type="number"
           placeholder="número do processo"
           required
         ></b-form-input>
 
-        <b-button variant="success" @click="saveProcess()">Salvar</b-button>
+        <b-button
+          v-if="page.process"
+          variant="success"
+          :to="`process?id=${page.process.id}`"
+          >Detalhes</b-button
+        >
+        <b-button v-else variant="success" @click="saveProcess()"
+          >Salvar</b-button
+        >
       </b-input-group>
     </b-form>
   </b-container>
@@ -55,21 +62,33 @@
 <script>
 import api from '../service/api'
 export default {
-  name: 'Página',
+  name: 'Pagina',
   data() {
     return {
+      id: '',
+      processNumber: '',
       page: {},
     }
   },
+  computed: {},
   async mounted() {
     const url = new URL(window.location.href)
-    const id = url.searchParams.get('id')
-    this.page = await api.getPageId(id)
+    this.id = url.searchParams.get('id')
+    this.page = await api.getPageId(this.id)
+    this.processNumber = this.page.process
+      ? this.page.process.processNumber
+      : ''
   },
   methods: {
     async saveProcess() {
-      await api.saveProcess(this.page.id, this.processNumber)
+      await api.saveProcess(this.id, this.processNumber)
+      this.page = await api.getPageId(this.id)
     },
+    // async updateProcess() {
+    //   const number = this.processNumber
+    //   await api.updateProcessNumber(this.id, number)
+    //   this.page = await api.getPageId(this.id)
+    // },
   },
 }
 </script>
