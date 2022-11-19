@@ -31,25 +31,14 @@
         <b-col cols="1">{{ range }}</b-col>
       </b-row>
     </b-container>
-    <b-container content-class="mt-3">
-      <b-card-group deck>
-        <b-col>
-          <b-row v-for="imageI in imagesArrays" :key="imageI.index">
-            <b-card
-              v-for="image in imageI"
-              :key="image.index"
-              :img-src="image.link"
-            >
-              <b-button class="btn" @click="deleteImage(image)">
-                <b-icon-trash variant="white" />
-              </b-button>
-              <b-button class="btn" :to="`image?id=${image.id}`">
-                <b-icon-info variant="white" />
-              </b-button>
-            </b-card>
-          </b-row>
+    <b-container fluid class="p-4">
+      <b-row v-for="imageI in imagesArrays" :key="imageI.index">
+        <b-col v-for="image in imageI" :key="image.index">
+          <b-link :to="`image?id=${image.id}`">
+            <b-img thumbnail :src="image.link"></b-img>
+          </b-link>
         </b-col>
-      </b-card-group>
+      </b-row>
     </b-container>
   </b-container>
 </template>
@@ -79,7 +68,6 @@ export default {
         const chunk = images.slice(i, i + chunkSize)
         imagesArrays.push(chunk)
       }
-      console.log(imagesArrays)
       return imagesArrays
     },
     sizeImages() {

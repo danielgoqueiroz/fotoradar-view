@@ -141,6 +141,24 @@ class Api {
       })
   }
 
+  async getPageId(id) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .get(`/api/page/find-by-id?id=${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        console.log(res)
+        return res.data
+      })
+      .catch((e) => {
+        console.error('Errro')
+
+        console.error(e)
+        throw e
+      })
+  }
+
   async getCompanyId(id) {
     const token = localStorage.getItem('token')
     return await axios
@@ -192,6 +210,46 @@ class Api {
       .catch((e) => {
         console.error(e)
         throw e
+      })
+  }
+
+  async loadProcesses() {
+    const token = localStorage.getItem('token')
+    return await axios
+      .get('/api/process', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        console.log('carregando processos')
+        const processes = res.data
+        return processes
+      })
+      .catch((e) => {
+        console.error(e)
+        throw e
+      })
+  }
+
+  async saveProcess(pageId, processNumber) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .put(
+        `/api/page/process?pageId=${pageId}&processNumber=${processNumber}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'content-Type': 'application/json',
+          },
+        }
+      )
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
       })
   }
 

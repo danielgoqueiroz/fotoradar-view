@@ -24,7 +24,14 @@
       </b-input-group>
     </b-form-group>
     <b-list-group>
-      <b-table striped hover :items="pagesTable"></b-table>
+      <b-table striped hover :items="pages" :fields="fields">
+        <template #cell(image)="data">
+          <b-img thumbnail :src="data.item.image.link"></b-img>
+        </template>
+        <template #cell(button)="data">
+          <b-button :to="`page?id=${data.item.id}`">Abrir</b-button>
+        </template>
+      </b-table>
     </b-list-group>
     <b-modal id="image-select-modal">
       <b-img
@@ -58,6 +65,11 @@ export default {
         image: {},
         link: '',
       },
+      fields: [
+        { key: 'url', label: 'Url' },
+        { key: 'image', label: 'Imagem' },
+        { key: 'button', label: 'Abrir' },
+      ],
       pages: [],
       images: [{ id: 0, link: '' }],
       idPageSelected: {},
@@ -66,15 +78,15 @@ export default {
     }
   },
   computed: {
-    pagesTable() {
-      return this.pages.map((p) => {
-        return {
-          url: p.url,
-          Imagem: p.image.link,
-          // site: p.company ? p.company.host : '',
-        }
-      })
-    },
+    // pagesTable() {
+    //   return this.pages.map((p) => {
+    //     return {
+    //       url: p.url,
+    //       image: p.image.link,
+    //       // site: p.company ? p.company.host : '',
+    //     }
+    //   })
+    // },
   },
   async mounted() {
     this.pages = await api.loadPages().catch(() => this.$router.push('login'))
@@ -143,7 +155,7 @@ export default {
 }
 
 .img-thumbnail {
-  max-width: 50px;
+  max-width: 75px;
 }
 
 .extrato-conatiner {
