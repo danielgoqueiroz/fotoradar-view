@@ -6,12 +6,12 @@
       <b-form-input v-model="process.createdAt"></b-form-input>
       <b-form-input v-model="process.description"></b-form-input>
       <b-form-input v-model="process.status"></b-form-input>
-
+      <b-form-input v-model="process.pages"></b-form-input>
       <b-form-input v-model="process.attorney"></b-form-input>
 
       Adicionar pagamento
 
-      <b-form-group description="Pagamento" :state="state">
+      <b-form-group description="Pagamento">
         <b-button-group>
           <b-form-input v-model="addPaymentValue" type="number"></b-form-input>
           <b-button @click="addPayment()">Adicionar</b-button>
@@ -25,6 +25,7 @@
         --------------- {{ paymentTotal }}
       </b-form-group>
     </b-form>
+    {{ paymentTotal }}
   </b-container>
 </template>
 
@@ -33,22 +34,25 @@ import api from '../service/api'
 export default {
   data() {
     return {
-      addPaymentValue: 0,
+      addPaymentValue: '',
       fields: [{ key: 'processNumber', label: 'Número do processo' }],
-      process: [],
+      process: [{ payments: [] }],
     }
   },
   computed: {
     paymentTotal() {
-      return this.process.payments.reduce(
-        (accumulator, currentValue) => accumulator + Number(currentValue.value)
-      )
+      let total = 0
+      this.process.payments.forEach((payment) => {
+        total += payment.value
+      })
+      return total
     },
   },
   async mounted() {
     const url = new URL(window.location.href)
     this.id = url.searchParams.get('id')
     this.process = await api.loadProcessById(this.id)
+    console.log(this.process)
   },
   methods: {
     async addPayment() {
