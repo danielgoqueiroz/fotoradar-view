@@ -245,6 +245,21 @@ class Api {
       })
   }
 
+  async addPaymentOnProcess(id, value) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .get(`/api/process/add-payment?id=${id}&value=${value}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((e) => {
+        console.error(e)
+        throw e
+      })
+  }
+
   async saveProcess(pageId, processNumber) {
     const token = localStorage.getItem('token')
     return await axios
