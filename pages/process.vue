@@ -13,6 +13,8 @@
 
       <b-form-group description="Pagamento">
         <b-button-group>
+          {{ addPaymentDate }}
+          <b-form-input v-model="addPaymentDate" type="date"></b-form-input>
           <b-form-input v-model="addPaymentValue" type="number"></b-form-input>
           <b-button @click="addPayment()">Adicionar</b-button>
         </b-button-group>
@@ -34,6 +36,7 @@ import api from '../service/api'
 export default {
   data() {
     return {
+      addPaymentDate: '',
       addPaymentValue: '',
       fields: [{ key: 'processNumber', label: 'Número do processo' }],
       process: [{ payments: [] }],
@@ -56,7 +59,11 @@ export default {
   },
   methods: {
     async addPayment() {
-      await api.addPaymentOnProcess(this.id, this.addPaymentValue)
+      await api.addPaymentOnProcess(
+        this.id,
+        this.addPaymentValue,
+        this.addPaymentDate
+      )
       this.process = await api.loadProcessById(this.id)
     },
   },

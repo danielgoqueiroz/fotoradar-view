@@ -15,9 +15,7 @@
           type="password"
           placeholder="Digite a senha"
         />
-        <b-button @click="createAccount(username, password)"
-          >Criar conta</b-button
-        >
+        <b-button @click="createAccount()">Criar conta</b-button>
       </span>
       <b-button @click="change()"><b-icon-arrow-left-right /></b-button>
     </div>
@@ -39,7 +37,10 @@ export default {
     }
   },
   methods: {
-    async createAccount(username, password) {
+    async createAccount() {
+      const username = this.username
+      const password = this.password
+      console.log(username, password)
       await api
         .saveUser(username, password)
         .then(() => (this.switchForm = !this.switchForm))
