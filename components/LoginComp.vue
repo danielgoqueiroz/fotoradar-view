@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import api from '../service/api'
+import api from '../service/loginService'
 
 export default {
   name: 'LoginComp',
@@ -37,13 +37,13 @@ export default {
     }
   },
   methods: {
-    async createAccount() {
-      const username = this.username
-      const password = this.password
-      console.log(username, password)
-      await api
-        .saveUser(username, password)
-        .then(() => (this.switchForm = !this.switchForm))
+    createAccount() {
+      // const username = this.username
+      // const password = this.password
+      // console.log(username, password)
+      // await loginService
+      //   .saveUser(username, password)
+      //   .then(() => (this.switchForm = !this.switchForm))
     },
     change() {
       this.switchForm = !this.switchForm
