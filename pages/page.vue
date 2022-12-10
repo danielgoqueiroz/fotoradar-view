@@ -40,7 +40,7 @@
         <b-form-input
           id="input-1"
           v-model="processNumber"
-          type="number"
+          :state="processNumberValidation"
           placeholder="número do processo"
           required
         ></b-form-input>
@@ -70,7 +70,13 @@ export default {
       page: {},
     }
   },
-  computed: {},
+  computed: {
+    processNumberValidation() {
+      const regex = /[0-9]+-[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/i
+      return regex.test(this.processNumber)
+    },
+  },
+
   async mounted() {
     const url = new URL(window.location.href)
     this.id = url.searchParams.get('id')

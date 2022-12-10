@@ -31,6 +31,9 @@
         <template #cell(button)="data">
           <b-button :to="`page?id=${data.item.id}`">Abrir</b-button>
         </template>
+        <template #cell(company)="data">
+          {{ data.item.company.host }}
+        </template>
       </b-table>
     </b-list-group>
     <b-modal id="image-select-modal">
@@ -67,6 +70,7 @@ export default {
       },
       fields: [
         { key: 'url', label: 'Url' },
+        { key: 'company', label: 'Empresa' },
         { key: 'image', label: 'Imagem' },
         { key: 'button', label: 'Abrir' },
       ],

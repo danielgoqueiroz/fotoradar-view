@@ -14,12 +14,10 @@ class LoginService {
         if (err) {
           console.error(err)
         }
-        console.log('token')
         this.token = res.data.access_token
         localStorage.setItem('token', res.data.access_token)
       })
       .catch((erro) => {
-        console.log(erro)
         throw erro
       })
   }
