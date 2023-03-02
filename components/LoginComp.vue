@@ -23,7 +23,8 @@
 </template>
 
 <script>
-import api from '../service/loginService'
+import loginApi from '../service/loginService'
+import userApi from '../service/api'
 
 export default {
   name: 'LoginComp',
@@ -37,19 +38,19 @@ export default {
     }
   },
   methods: {
-    createAccount() {
-      // const username = this.username
-      // const password = this.password
-      // console.log(username, password)
-      // await loginService
-      //   .saveUser(username, password)
-      //   .then(() => (this.switchForm = !this.switchForm))
+    async createAccount() {
+      const username = this.username
+      const password = this.password
+      console.log(username, password)
+      await userApi
+        .saveUser(username, password)
+        .then(() => (this.switchForm = !this.switchForm))
     },
     change() {
       this.switchForm = !this.switchForm
     },
     async login(username, password) {
-      await api
+      await loginApi
         .login(username, password)
         .then(() => {
           this.$router.push('images')
