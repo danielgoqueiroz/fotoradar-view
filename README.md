@@ -1,5 +1,8 @@
 # fotoradar-view
 
+##Menu
+https://vuejsexamples.com/a-modern-and-fast-sidebar-menu-component-for-vue-capable-with-vue-router/
+
 ## Build Setup
 
 ```bash

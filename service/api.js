@@ -350,11 +350,13 @@ class Api {
         },
       })
       .then((res) => {
+        console.log('User updated', res)
         return res.data
       })
       .catch((err) => {
         const error = err.response
         const message = error.data.message
+        console.log('Error on user update', message)
         throw message
       })
   }

@@ -18,7 +18,9 @@ export default {
   },
 
   env: {
-    apiUrl: process.env.API_URL,
+    apiUrl: process.env.API_URL
+      ? process.env.API_URL
+      : 'https://fotoradar-api.herokuapp.com',
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
