@@ -2,12 +2,24 @@
   <b-container>
     <h1>Processo</h1>
     <b-form>
-      <b-form-input v-model="process.processNumber"></b-form-input>
-      <b-form-input v-model="process.createdAt"></b-form-input>
-      <b-form-input v-model="process.description"></b-form-input>
-      <b-form-input v-model="process.status"></b-form-input>
-      <b-form-input v-model="process.pages"></b-form-input>
-      <b-form-input v-model="process.attorney"></b-form-input>
+      <b-form-group label="Número do processo">
+        <b-form-input v-model="process.processNumber"></b-form-input>
+      </b-form-group>
+      <b-form-group label="Data de criação">
+        <b-form-input v-model="process.createdAt"></b-form-input>
+      </b-form-group>
+      <b-form-group label="Descrição">
+        <b-form-input v-model="process.description"></b-form-input>
+      </b-form-group>
+      <b-form-group label="Status">
+        <b-form-input v-model="process.status"></b-form-input>
+      </b-form-group>
+      <b-form-group label="Páginas">
+        <b-form-input v-model="process.pages"></b-form-input>
+      </b-form-group>
+      <b-form-group label="Advogado responsável">
+        <b-form-input v-model="process.attorney"></b-form-input>
+      </b-form-group>
 
       Adicionar pagamento
 
