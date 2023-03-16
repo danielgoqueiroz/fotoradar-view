@@ -4,7 +4,12 @@
       <span v-show="!switchForm">
         <h3>Login</h3>
         <b-form-input v-model="username" placeholder="Digite o usuário" />
-        <b-form-input v-model="password" placeholder="Digite a senha" />
+        <b-form-input
+          v-model="password"
+          type="password"
+          placeholder="Digite a
+        senha"
+        />
         <b-button @click="login(username, password)">Login</b-button>
       </span>
       <span v-show="switchForm">
@@ -31,8 +36,8 @@ export default {
   data() {
     return {
       switchForm: false,
-      username: 'teste',
-      password: 'teste',
+      username: '',
+      password: '',
       response: {},
       token: '',
     }
@@ -41,7 +46,6 @@ export default {
     async createAccount() {
       const username = this.username
       const password = this.password
-      console.log(username, password)
       await userApi
         .saveUser(username, password)
         .then(() => (this.switchForm = !this.switchForm))
