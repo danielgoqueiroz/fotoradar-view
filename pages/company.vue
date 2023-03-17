@@ -1,6 +1,7 @@
 <template>
   <b-container>
     <b-form>
+      {{ company }}
       <h1>{{ company.host }}</h1>
       <b-form-group
         id="input-group-1"
@@ -25,7 +26,7 @@
           id="input-1"
           v-model="company.name"
           type="text"
-          placeholder="nome da empresa"
+          placeholder="Nome da empresa"
           required
         ></b-form-input>
       </b-form-group>
@@ -38,8 +39,8 @@
         <b-form-input
           id="input-1"
           v-model="company.cnpj"
-          type="email"
-          placeholder="Enter email"
+          type="text"
+          placeholder="CNPJ"
           required
         ></b-form-input>
       </b-form-group>
@@ -47,13 +48,13 @@
         id="input-group-1"
         label="E-mail"
         label-for="input-1"
-        description="Endereço de e-mail"
+        description="CNPJ"
       >
         <b-form-input
           id="input-1"
           v-model="company.email"
           type="email"
-          placeholder="e-mail"
+          placeholder="E-mail"
           required
         ></b-form-input>
       </b-form-group>
@@ -66,8 +67,8 @@
         <b-form-input
           id="input-1"
           v-model="company.phone"
-          type="email"
-          placeholder="Enter email"
+          type="tel"
+          placeholder="Telefone"
           required
         ></b-form-input>
       </b-form-group>
@@ -80,11 +81,12 @@
         <b-form-input
           id="input-1"
           v-model="company.address"
-          type="email"
-          placeholder="Enter email"
+          type="text"
+          placeholder="Endereço"
           required
         ></b-form-input>
       </b-form-group>
+      <b-button @click="update()">Salvar</b-button>
     </b-form>
   </b-container>
 </template>
@@ -102,11 +104,34 @@ export default {
     const url = new URL(window.location.href)
     const id = url.searchParams.get('id')
     const company = await api.getCompanyId(id)
+    console.log(company)
     this.company = company
   },
   methods: {
-    async update(company) {
-      await api.updateCompany(company)
+    update() {
+      api
+        .updateCompany(this.company)
+        .then(() => {
+          this.$bvToast.toast('Dados atualizados', {
+            title: 'Mensagem',
+            toaster: 'b-toaster-bottom-center',
+            autoHideDelay: 3000,
+            variant: 'success',
+            appendToast: true,
+          })
+        })
+        .catch((err) => {
+          this.$bvToast.toast(
+            'Erro ao atualizar dado: ' + err.response.data.message,
+            {
+              title: 'Mensagem',
+              toaster: 'b-toaster-bottom-center',
+              autoHideDelay: 3000,
+              variant: 'danger',
+              appendToast: true,
+            }
+          )
+        })
     },
   },
 }

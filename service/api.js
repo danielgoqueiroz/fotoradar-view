@@ -211,8 +211,8 @@ class Api {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        console.log('carregando processos')
         const processes = res.data
+        console.log('carregando processos', processes)
         return processes
       })
       .catch((e) => {
@@ -459,7 +459,8 @@ class Api {
         },
       })
       .then((res) => {
-        return res.data
+        console.log('Company updated', res)
+        return res
       })
       .catch((err) => {
         const error = err.response
