@@ -9,6 +9,7 @@
         Descrição: {{ image.description }}
       </b-col>
     </b-row>
+
     <b-input-group>
       <b-input-group-prepend is-text>Adicionar página</b-input-group-prepend>
       <b-form-input v-model="urlToSave" placeholder="URL" />
@@ -17,7 +18,17 @@
       </b-input-group-append>
     </b-input-group>
     <b-list-group>
-      <b-table striped hover :items="pagesTable"></b-table>
+      <b-table
+        striped
+        hover
+        :items="pagesTable"
+        :fields="['empresa', 'url', 'button']"
+      >
+        <template #cell(button)="data">
+          <!-- `data.value` is the value after formatted by the Formatter -->
+          <b-button :to="`page?id=${data.item.id}`">Abrir</b-button>
+        </template>
+      </b-table>
     </b-list-group>
   </b-container>
 </template>
@@ -36,14 +47,17 @@ export default {
   },
   computed: {
     pagesTable() {
-      return this.pages.map((p) => {
+      const pages = this.pages.map((p) => {
         return {
           urlToSave: '',
           url: p.url,
+          id: p.id,
           Imagem: p.image.link,
           empresa: p.company.host,
         }
       })
+      console.log('pages map', pages)
+      return pages
     },
   },
   async mounted() {
@@ -53,6 +67,7 @@ export default {
     this.image = image
 
     this.pages = await api.getPagesByImageId(id)
+    console.log('páginas', this.pages)
   },
   methods: {
     openPageModal(image) {

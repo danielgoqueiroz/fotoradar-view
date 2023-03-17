@@ -1,40 +1,39 @@
 <template>
-  <b-container content-class="mt-3">
-    <b-container fluid="md" content-class="mt-3">
-      <b-row>
-        <b-col></b-col>
-        <b-col
-          ><b-link class="add-image" @click="showAddImage = !showAddImage">
-            <b-icon-plus-circle v-if="!showAddImage" variant="info" />
-            <b-icon-x-circle v-else /></b-link
-        ></b-col>
-        <b-col></b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="9"
-          ><b-input-group v-show="showAddImage" prepend="Adicionar">
-            <b-form-input v-model="addImage.link" placeholder="link" />
-            <b-form-input v-model="nameFromLink" disabled placeholder="nome" />
-            <b-input-group-append>
-              <b-button
-                variant="outline-success"
-                @click="saveImage(addImage.link, nameFromLink)"
-                >Salvar</b-button
-              >
-            </b-input-group-append>
-          </b-input-group></b-col
-        >
-        <b-col cols="2">
-          <b-form-input
-            v-model="range"
-            min="1"
-            max="10"
-            type="range"
-          ></b-form-input>
-        </b-col>
-        <b-col cols="1">{{ range }}</b-col>
-      </b-row>
-    </b-container>
+  <b-container>
+    <b-row>
+      <b-col></b-col>
+      <b-col
+        ><b-link class="add-image" @click="showAddImage = !showAddImage">
+          <b-icon-plus-circle v-if="!showAddImage" variant="info" />
+          <b-icon-x-circle v-else /></b-link
+      ></b-col>
+      <b-col></b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="9"
+        ><b-input-group v-show="showAddImage" prepend="Adicionar">
+          <b-form-input v-model="addImage.link" placeholder="link" />
+          <b-form-input v-model="nameFromLink" disabled placeholder="nome" />
+          <b-input-group-append>
+            <b-button
+              variant="outline-success"
+              @click="saveImage(addImage.link, nameFromLink)"
+              >Salvar</b-button
+            >
+          </b-input-group-append>
+        </b-input-group></b-col
+      >
+      <b-col cols="2">
+        <b-form-input
+          v-model="range"
+          min="1"
+          max="10"
+          type="range"
+        ></b-form-input>
+      </b-col>
+      <b-col cols="1">{{ range }}</b-col>
+    </b-row>
+
     <b-container fluid class="p-4">
       <b-row v-for="imageI in imagesArrays" :key="imageI.index">
         <b-col v-for="image in imageI" :key="image.index">
