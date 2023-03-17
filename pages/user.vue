@@ -5,16 +5,20 @@
     </span>
     <b-form-group>
       <b-form-group label="Username">
-        <b-form-input v-model="user.username"></b-form-input>
+        <b-form-input v-if="isUserLoaded" v-model="user.username" />
+        <b-skeleton v-else type="input" />
       </b-form-group>
       <b-form-group label="Nome">
-        <b-form-input v-model="user.name"></b-form-input>
+        <b-form-input v-if="isUserLoaded" v-model="user.name" />
+        <b-skeleton v-else type="input" />
       </b-form-group>
       <b-form-group label="E-mail">
-        <b-form-input v-model="user.email"></b-form-input>
+        <b-form-input v-if="isUserLoaded" v-model="user.email" />
+        <b-skeleton v-else type="input" />
       </b-form-group>
       <b-form-group label="CPF">
-        <b-form-input v-model="user.cpf"></b-form-input>
+        <b-form-input v-if="isUserLoaded" v-model="user.cpf" />
+        <b-skeleton v-else type="input" />
       </b-form-group>
       <b-button @click="updateUser(user)">Salvar</b-button>
       <b-button @click="logout()">Logout</b-button>
@@ -29,6 +33,11 @@ export default {
     return {
       user: {},
     }
+  },
+  computed: {
+    isUserLoaded() {
+      return this.user !== {}
+    },
   },
   async mounted() {
     this.user = await this.getUserData().catch(() => this.$router.push('login'))
