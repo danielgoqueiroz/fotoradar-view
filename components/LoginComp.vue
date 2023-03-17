@@ -1,5 +1,5 @@
 <template>
-  <b-container class="login-box">
+  <b-container>
     <div class="login">
       <span v-show="!switchForm">
         <h3>Login</h3>
@@ -60,7 +60,8 @@ export default {
           this.$router.push('images')
         })
         .catch((err) => {
-          this.makeToast(false, err.message)
+          console.log(err)
+          this.makeToast(false, 'Não foi possível fazer o login')
         })
     },
     makeToast(append, message) {

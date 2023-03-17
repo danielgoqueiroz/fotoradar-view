@@ -9,18 +9,16 @@
         Descrição: {{ image.description }}
       </b-col>
     </b-row>
-    <b-button class="btn" @click="openPageModal(image)">
-      <b-icon-book variant="white" />
-    </b-button>
+    <b-input-group>
+      <b-input-group-prepend is-text>Adicionar página</b-input-group-prepend>
+      <b-form-input v-model="urlToSave" placeholder="URL" />
+      <b-input-group-append>
+        <b-button variant="success" @click="savePage()">Salvar</b-button>
+      </b-input-group-append>
+    </b-input-group>
     <b-list-group>
       <b-table striped hover :items="pagesTable"></b-table>
     </b-list-group>
-    <b-modal v-model="showPageModal" hide-footer>
-      <template #modal-title> Adicionar página </template>
-      <b-input v-model="urlToSave" />
-      <b-button @click="hideModalPage">Cancelar</b-button>
-      <b-button variant="success" @click="savePage()">Salvar</b-button>
-    </b-modal>
   </b-container>
 </template>
 
@@ -30,6 +28,7 @@ import api from '../service/api'
 export default {
   data() {
     return {
+      urlToSave: '',
       showPageModal: false,
       image: {},
       pages: [],

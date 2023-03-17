@@ -8,20 +8,10 @@
       search-placeholder="Buscar..."
       search-tooltip="Buscar"
       :is-exit-button="false"
-      profile-role="Desenvolvedor/Fotógrafo"
-      profile-name="Daniel G. Queiroz"
-      profile-img="https://danielqueiroz.com/api/wp-content/uploads/2023/01/image.jpg"
-    ></VueSidebarMenuAkahon>
-    <!-- <b-navbar toggleable="lg" type="dark" variant="info">
-      <span>
-        <b-navbar-brand href="/">
-          <object
-            data="/logo_tipo_fotoradar.svg"
-            width="75"
-            height="75"
-            class="circle"
-          ></object> </b-navbar-brand
-      ></span> -->
+      profile-role="Função"
+      profile-name="Nome do Usuário"
+      profile-img="https://cdn-icons-png.flaticon.com/512/1077/1077012.png"
+    />
   </div>
 </template>
 
@@ -36,6 +26,12 @@ export default {
     return {
       user: {},
       menu: [
+        {
+          link: '/user',
+          name: 'Usuário',
+          tooltip: 'Usuário',
+          icon: 'bx-user',
+        },
         {
           link: '/images',
           name: 'Imagens',
@@ -63,11 +59,18 @@ export default {
       ],
     }
   },
-
   async mounted() {
+    this.$el.addEventListener('click', this.onClick)
+
     this.user = await this.getUserData()
   },
+  destroyed() {
+    this.$el.removeEventListener('click', this.onClick)
+  },
   methods: {
+    onClick() {
+      console.log('a phone number was clicked')
+    },
     async getUserData() {
       return await api.getUserData().catch((err) => {
         console.log('Erro de login', err)

@@ -6,13 +6,13 @@ class LoginService {
       .post(
         'login',
         new URLSearchParams({
-          username, // 'daniel'
-          password, // 'senha123'
+          username,
+          password,
         })
       )
       .then((res, err) => {
         if (err) {
-          console.error(err)
+          throw err
         }
         this.token = res.data.access_token
         localStorage.setItem('token', res.data.access_token)

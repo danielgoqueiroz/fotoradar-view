@@ -2,12 +2,16 @@
   <b-container content-class="mt-3">
     <b-container fluid="md" content-class="mt-3">
       <b-row>
-        <b-col cols="1">
-          <b-link class="add-image" @click="showAddImage = !showAddImage">
+        <b-col></b-col>
+        <b-col
+          ><b-link class="add-image" @click="showAddImage = !showAddImage">
             <b-icon-plus-circle v-if="!showAddImage" variant="info" />
             <b-icon-x-circle v-else /></b-link
         ></b-col>
-        <b-col cols="8"
+        <b-col></b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="9"
           ><b-input-group v-show="showAddImage" prepend="Adicionar">
             <b-form-input v-model="addImage.link" placeholder="link" />
             <b-form-input v-model="nameFromLink" disabled placeholder="nome" />
