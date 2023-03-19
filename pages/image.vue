@@ -63,7 +63,9 @@ export default {
   async mounted() {
     const url = new URL(window.location.href)
     const id = url.searchParams.get('id')
+    console.log('id', id)
     const image = await api.getImage(id)
+    console.log('image', image)
     this.image = image
 
     this.pages = await api.getPagesByImageId(id)

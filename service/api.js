@@ -124,6 +124,7 @@ class Api {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        console.log('getImage API', res)
         return res.data
       })
       .catch((e) => {
