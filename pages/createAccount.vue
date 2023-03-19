@@ -64,7 +64,13 @@ export default {
         this.makeToast('Dados incompletos', 'Não foi possível criar a conta')
         return
       }
-      api.createUser(this.user).catch((err) => this.makeToast('Ops!', err))
+      api
+        .createUser(this.user)
+        .then(() => {
+          console.log('Conta criada com sucesso')
+          this.$router.push('login')
+        })
+        .catch((err) => this.makeToast('Ops!', err))
     },
     makeToast(title, message) {
       this.$bvToast.toast(message, {
