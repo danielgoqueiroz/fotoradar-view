@@ -2,10 +2,25 @@
   <b-container>
     <b-row>
       <b-col cols="4">
-        <b-img :src="image.link" thumbnail fluid alt="Responsive image"></b-img>
+        <b-skeleton-img
+          v-if="!image.link"
+          label="Carregando..."
+        ></b-skeleton-img>
+
+        <b-img
+          v-else
+          :src="image.link"
+          thumbnail
+          fluid
+          alt="Responsive image"
+        ></b-img>
       </b-col>
       <b-col cols="8">
-        <h3>Nome: {{ image.name }} <br /></h3>
+        <h3>
+          Nome:
+          <b-skeleton v-if="!image.name" label="Carregando..."></b-skeleton>
+          {{ image.name }} <br />
+        </h3>
         Descrição: {{ image.description }}
       </b-col>
     </b-row>

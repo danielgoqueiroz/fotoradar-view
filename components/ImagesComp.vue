@@ -34,12 +34,29 @@
       <b-col cols="1">{{ range }}</b-col>
     </b-row>
 
+    <b-container v-if="!images.length" fluid>
+      <b-skeleton-img
+        v-if="!images.length"
+        class="img-skeleton"
+        no-aspect
+        width="450px"
+        height="250px"
+      />
+      <b-skeleton-img
+        v-if="!images.length"
+        class="img-skeleton"
+        no-aspect
+        width="450px"
+        height="250px"
+      />
+    </b-container>
+
     <b-container fluid class="p-4">
       <b-row v-for="imageI in imagesArrays" :key="imageI.index">
         <b-col v-for="image in imageI" :key="image.index">
-          <b-link :to="`image?id=${image.id}`">
+          <nuxt-link :to="`image?id=${image.id}`">
             <b-img thumbnail :src="image.link"></b-img>
-          </b-link>
+          </nuxt-link>
         </b-col>
       </b-row>
     </b-container>
@@ -126,6 +143,10 @@ export default {
 }
 </script>
 <style scoped>
+.img-skeleton {
+  margin: 10px;
+}
+
 .images-content {
   max-width: 500px;
 }
