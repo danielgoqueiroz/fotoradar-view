@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <div class="login">
-      <span v-show="!switchForm">
+      <span>
         <h3>Login</h3>
         <b-form-input v-model="username" placeholder="Digite o usuário" />
         <b-form-input
@@ -10,19 +10,11 @@
           placeholder="Digite a
         senha"
         />
+        <b-button to="/createAccount">Criar conta</b-button>
+      </span>
+      <span>
         <b-button @click="login(username, password)">Login</b-button>
       </span>
-      <span v-show="switchForm">
-        <h3>Criar conta</h3>
-        <b-form-input v-model="username" placeholder="Digite o usuário" />
-        <b-form-input
-          v-model="password"
-          type="password"
-          placeholder="Digite a senha"
-        />
-        <b-button @click="createAccount()">Criar conta</b-button>
-      </span>
-      <b-button @click="change()"><b-icon-arrow-left-right /></b-button>
     </div>
   </b-container>
 </template>
@@ -49,9 +41,6 @@ export default {
       await userApi
         .saveUser(username, password)
         .then(() => (this.switchForm = !this.switchForm))
-    },
-    change() {
-      this.switchForm = !this.switchForm
     },
     async login(username, password) {
       await loginApi

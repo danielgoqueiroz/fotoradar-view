@@ -117,6 +117,19 @@ class Api {
       })
   }
 
+  async createUser(user) {
+    return await axios
+      .post('/api/user/save', user)
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
+      })
+  }
+
   async getImage(id) {
     const token = localStorage.getItem('token')
     return await axios
