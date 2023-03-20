@@ -10,11 +10,12 @@
           placeholder="Digite a
         senha"
         />
+        <b-button variant="primary" @click="login(username, password)"
+          >Login</b-button
+        >
         <b-button to="/createAccount">Criar conta</b-button>
       </span>
-      <span>
-        <b-button @click="login(username, password)">Login</b-button>
-      </span>
+      <span> </span>
     </div>
   </b-container>
 </template>

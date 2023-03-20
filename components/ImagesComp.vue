@@ -54,7 +54,7 @@
     <b-container fluid class="p-4">
       <b-row v-for="imageI in imagesArrays" :key="imageI.index">
         <b-col v-for="image in imageI" :key="image.index">
-          <nuxt-link :to="`image?id=${image.id}`">
+          <nuxt-link :to="`/image?id=${image.id}`">
             <b-img thumbnail :src="image.link"></b-img>
           </nuxt-link>
         </b-col>
@@ -97,6 +97,7 @@ export default {
       if (this.addImage.link) {
         const names = this.addImage.link.split('/')
         const name = names[names.length - 1]
+        console.log(name)
         return name.split('.jpg')[0]
       }
       return ''

@@ -2,10 +2,11 @@
   <b-container>
     <h1>Empresas</h1>
     <b-list-group>
-      <b-table striped hover :items="companies" :fields="fields">
+      <b-spinner v-if="!companies.length" />
+      <b-table v-else striped hover :items="companies" :fields="fields">
         <template #cell(button)="data">
           <!-- `data.value` is the value after formatted by the Formatter -->
-          <b-button :to="`company?id=${data.item.id}`">Abrir</b-button>
+          <b-button :to="`/company?id=${data.item.id}`">Abrir</b-button>
         </template>
       </b-table>
     </b-list-group>

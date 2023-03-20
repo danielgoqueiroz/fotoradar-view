@@ -1,9 +1,10 @@
 <template>
   <b-container>
     <h1>Processos</h1>
-    <b-table :items="processes" :fields="fields">
+    <b-spinner v-if="!processes.length" />
+    <b-table v-else :items="processes" :fields="fields">
       <template #cell(button)="data">
-        <b-button :to="`process?id=${data.item.id}`">Ver detalhes</b-button>
+        <b-button :to="`/process?id=${data.item.id}`">Ver detalhes</b-button>
       </template>
     </b-table>
   </b-container>

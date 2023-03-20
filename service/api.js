@@ -311,6 +311,25 @@ class Api {
       })
   }
 
+  async updateProcess(process) {
+    const token = localStorage.getItem('token')
+    return await axios
+      .put(`/api/page/process?id=${process.id}`, process, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-Type': 'application/json',
+        },
+      })
+      .then((res) => {
+        return res.data
+      })
+      .catch((err) => {
+        const error = err.response
+        const message = error.data.message
+        throw message
+      })
+  }
+
   async updateProcessNumber(pageId, processNumber) {
     const token = localStorage.getItem('token')
     return await axios

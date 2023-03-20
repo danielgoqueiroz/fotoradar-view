@@ -32,7 +32,8 @@
         <b-button variant="success" @click="savePage()">Salvar</b-button>
       </b-input-group-append>
     </b-input-group>
-    <b-list-group>
+    <b-spinner v-if="!pages.length" label="Carregando..." />
+    <b-list-group v-else>
       <b-table
         striped
         hover

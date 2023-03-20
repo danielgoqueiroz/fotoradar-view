@@ -1,7 +1,6 @@
 <template>
   <b-container>
     <b-form>
-      {{ company }}
       <h1>{{ company.host }}</h1>
       <b-form-group
         id="input-group-1"

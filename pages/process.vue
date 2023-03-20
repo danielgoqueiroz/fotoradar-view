@@ -6,7 +6,7 @@
         <b-form-input v-model="process.processNumber"></b-form-input>
       </b-form-group>
       <b-form-group label="Data de criação">
-        <b-form-input v-model="process.createdAt"></b-form-input>
+        <b-form-input v-model="process.createdAt" type="date"></b-form-input>
       </b-form-group>
       <b-form-group label="Descrição">
         <b-form-input v-model="process.description"></b-form-input>
@@ -21,11 +21,10 @@
         <b-form-input v-model="process.attorney"></b-form-input>
       </b-form-group>
 
-      Adicionar pagamento
+      <h4>Adicionar pagamento</h4>
 
       <b-form-group description="Pagamento">
         <b-button-group>
-          {{ addPaymentDate }}
           <b-form-input v-model="addPaymentDate" type="date"></b-form-input>
           <b-form-input v-model="addPaymentValue" type="number"></b-form-input>
           <b-button @click="addPayment()">Adicionar</b-button>
@@ -35,11 +34,12 @@
           <p v-for="payment in process.payments" :key="payment.key">
             {{ payment.date }} --------------- {{ payment.value }}
           </p>
+          <b>Total:</b> {{ paymentTotal }}
         </b-card>
-        --------------- {{ paymentTotal }}
       </b-form-group>
     </b-form>
-    {{ paymentTotal }}
+
+    <b-button>Salvar</b-button>
   </b-container>
 </template>
 
@@ -67,7 +67,6 @@ export default {
     const url = new URL(window.location.href)
     this.id = url.searchParams.get('id')
     this.process = await api.loadProcessById(this.id)
-    console.log(this.process)
   },
   methods: {
     async addPayment() {

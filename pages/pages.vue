@@ -23,7 +23,8 @@
         </b-input-group-append>
       </b-input-group>
     </b-form-group>
-    <b-list-group>
+    <b-spinner v-if="!pages.length" />
+    <b-list-group v-else>
       <b-table striped hover :items="pages" :fields="fields">
         <template #cell(image)="data">
           <b-img thumbnail :src="data.item.image.link"></b-img>
