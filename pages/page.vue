@@ -48,7 +48,7 @@
         <b-button
           v-if="page.process"
           variant="success"
-          :to="`process?id=${page.process.id}`"
+          :to="`/process?id=${page.process.id}`"
           >Detalhes</b-button
         >
         <b-button v-else variant="success" @click="saveProcess()"

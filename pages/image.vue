@@ -42,7 +42,7 @@
       >
         <template #cell(button)="data">
           <!-- `data.value` is the value after formatted by the Formatter -->
-          <b-button :to="`page?id=${data.item.id}`">Abrir</b-button>
+          <b-button :to="`/page?id=${data.item.id}`">Abrir</b-button>
         </template>
       </b-table>
     </b-list-group>

@@ -23,14 +23,14 @@
         </b-input-group-append>
       </b-input-group>
     </b-form-group>
-    <b-spinner v-if="!pages.length" />
+    <b-spinner v-if="pages === null" />
     <b-list-group v-else>
       <b-table striped hover :items="pages" :fields="fields">
         <template #cell(image)="data">
           <b-img thumbnail :src="data.item.image.link"></b-img>
         </template>
         <template #cell(button)="data">
-          <b-button :to="`page?id=${data.item.id}`">Abrir</b-button>
+          <b-button :to="`/page?id=${data.item.id}`">Abrir</b-button>
         </template>
         <template #cell(company)="data">
           {{ data.item.company.host }}
@@ -75,7 +75,7 @@ export default {
         { key: 'image', label: 'Imagem' },
         { key: 'button', label: 'Abrir' },
       ],
-      pages: [],
+      pages: null,
       images: [{ id: 0, link: '' }],
       idPageSelected: {},
       modalShow: false,
