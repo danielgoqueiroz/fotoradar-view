@@ -33,17 +33,15 @@
       </b-col>
       <b-col cols="1">{{ range }}</b-col>
     </b-row>
-
-    <b-container v-if="!images.length" fluid>
+    <b-container v-if="images.length === 0"> <h3>Sem imagens</h3> </b-container>
+    <b-container v-if="images === null" fluid>
       <b-skeleton-img
-        v-if="!images.length"
         class="img-skeleton"
         no-aspect
         width="450px"
         height="250px"
       />
       <b-skeleton-img
-        v-if="!images.length"
         class="img-skeleton"
         no-aspect
         width="450px"
@@ -70,7 +68,7 @@ export default {
   data() {
     return {
       range: 3,
-      images: [],
+      images: null,
       addImage: {},
       showAddImage: false,
       showPageModal: false,
