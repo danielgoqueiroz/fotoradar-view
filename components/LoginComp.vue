@@ -3,12 +3,17 @@
     <div class="login">
       <span>
         <h3>Login</h3>
-        <b-form-input v-model="username" placeholder="Digite o usuário" />
+        <b-form-input
+          v-model="username"
+          placeholder="Digite o usuário"
+          @keypress.enter="login(username, password)"
+        />
         <b-form-input
           v-model="password"
           type="password"
           placeholder="Digite a
         senha"
+          @keypress.enter="login(username, password)"
         />
         <b-button variant="primary" @click="login(username, password)"
           >Login</b-button

@@ -33,7 +33,9 @@
       </b-col>
       <b-col cols="1">{{ range }}</b-col>
     </b-row>
-    <b-container v-if="images.length === 0"> <h3>Sem imagens</h3> </b-container>
+    <b-container v-if="images && images.length === 0">
+      <h3>Sem imagens</h3>
+    </b-container>
     <b-container v-if="images === null" fluid>
       <b-skeleton-img
         class="img-skeleton"

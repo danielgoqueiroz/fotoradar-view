@@ -2,7 +2,7 @@
   <b-container>
     <h1>Empresas</h1>
     <b-list-group>
-      <b-spinner v-if="!companies.length" />
+      <b-spinner v-if="companies === null" />
       <b-table v-else striped hover :items="companies" :fields="fields">
         <template #cell(button)="data">
           <!-- `data.value` is the value after formatted by the Formatter -->
@@ -19,7 +19,7 @@ export default {
   name: 'Company',
   data() {
     return {
-      companies: [],
+      companies: null,
       fields: [
         { key: 'host', label: 'Host' },
         { key: 'button', label: 'Ação' },
